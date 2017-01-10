@@ -12,17 +12,17 @@
 
 1. Defining thrift.idl file
 ```c
-namespace java thrift.gen.javacode
-namespace php ThriftService
+namespace java thrift.gen.javacode // Namespace for java and this namespace will be the package
+namespace php ThriftService // Namespace for PHP and this namespace will be the directory of PHP
 
-typedef i16 short
-typedef i32 int
-typedef i64 long
-typedef string String
-typedef binary ThriftByteBuffer
-typedef bool boolean
+typedef i16 short // Type redefinition for convenience
+typedef i32 int // Type redefinition for convenience
+typedef i64 long // Type redefinition for convenience
+typedef string String // Type redefinition for convenience
+typedef binary ThriftByteBuffer // Type redefinition for convenience
+typedef bool boolean // Type redefinition for convenience
 
-exception ThriftServiceException { 1 : int ecode, 2 : String emsg }
+exception ThriftServiceException { 1 : int ecode, 2 : String emsg } // Exception definition
 
 struct ThriftUserBean{
 	1. int id
@@ -32,7 +32,7 @@ struct ThriftUserBean{
 	5: String DATE
 } 
 
-service ThriftService {  
+service ThriftService { // Handler Method Interfaces for General Service
 	String duplicateUserId(1:String id) throws (1:ThriftServiceException se);
 	list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se); 
 	ThriftUserBean getUserInfo(1:String id) throws (1:ThriftServiceException se);
@@ -40,7 +40,7 @@ service ThriftService {
 	ThriftUserBean getTest(1:int userNumber) throws (1:ThriftServiceException se);
 }
 
-service ThriftAdminService {  
+service ThriftAdminService { // Handler Method Interfaces for Admin Service
 	list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 	list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 	ThriftUserBean getTest(1:int userNumber) throws (1:ThriftServiceException se)  ; 
