@@ -24,30 +24,24 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	
 	private ServiceEngine	serviceEngine;
 	private MapperFacade	mp;
-	public ThriftAdminServiceHandler()
-	{
+	public ThriftAdminServiceHandler(){
 		ServiceEngineFactory serviceEngineFactory = ServiceEngineFactory.getInstance();
 
-		try
-		{
+		try{
 			this.serviceEngine = serviceEngineFactory.getEngine();
 			this.mp = serviceEngine.getMpFactory().getMapper();
 		}
-		catch (ServiceException e)
-		{
+		catch (ServiceException e){
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public List<ThriftFileBean> fileUpload(List<ThriftFileBean> param1) throws ThriftServiceException, TException
-	{
-		try
-		{
+	public List<ThriftFileBean> fileUpload(List<ThriftFileBean> param1) throws ThriftServiceException, TException{
+		try{
 			List<FileBean> fileBeans = new ArrayList<FileBean>();
 
-			for (ThriftFileBean bean : param1)
-			{
+			for (ThriftFileBean bean : param1){
 				FileBean fileBean = new FileBean();
 
 				fileBean.setFile(ByteBuffer.wrap(bean.getFile()));
@@ -62,8 +56,7 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 			List<ThriftFileBean> ret = ThriftConvertUtil.convert(ThriftFileBean.class, mp, fileList);
 			return ret;
 		}
-		catch (ServiceException e)
-		{
+		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
 		}
 	}
@@ -73,8 +66,7 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 		try{
 			List<FileBean> fileBeans = new ArrayList<FileBean>();
 
-			for (ThriftFileBean bean : param1)
-			{
+			for (ThriftFileBean bean : param1){
 				FileBean fileBean = new FileBean();
 
 				fileBean.setFile(ByteBuffer.wrap(bean.getFile()));
@@ -89,10 +81,15 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 			List<ThriftFileBean> ret = ThriftConvertUtil.convert(ThriftFileBean.class, mp, fileList);
 			return ret;
 		}
-		catch (ServiceException e)
-		{
+		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
 		}
+	}
+
+	@Override
+	public ThriftUserBean getTest(int userNumber) throws ThriftServiceException, TException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

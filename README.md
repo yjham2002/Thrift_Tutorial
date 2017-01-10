@@ -1,3 +1,17 @@
+# Thrift based server with JAVA and PHP
+
+### This document is about the order of processes on constructing Apache thrift based server
+
+##### This Project runs with
+- Thrift as a multiplexer
+- C styled IDL as a base declaration
+- mybatis as a modeller
+- JAVA as a controller
+- Java bean for encapsulations
+- PHP as views
+
+1. Defining thrift.idl file
+```
 namespace java thrift.gen.javacode
 namespace php ThriftService
 
@@ -18,24 +32,6 @@ struct ThriftUserBean{
 	5: String DATE
 } 
 
-struct ThriftBoardBean{
-	1: int id
-	2: int uid
-	3: String title
-	4: String content
-	5: String DATE
-}
-
-struct ThriftFileBean{
-	1: int id
-	2: int bid
-	2: String name
-	3: String ext
-	4: ThriftByteBuffer file
-	5: String filePath
-	6: String DATE
-}
-
 service ThriftService {  
 	String duplicateUserId(1:String id) throws (1:ThriftServiceException se);
 	list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se); 
@@ -49,3 +45,4 @@ service ThriftAdminService {
 	list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 	ThriftUserBean getTest(1:int userNumber) throws (1:ThriftServiceException se)  ; 
 } 
+```

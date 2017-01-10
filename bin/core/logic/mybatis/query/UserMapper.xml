@@ -12,7 +12,7 @@
         	, name
         	, date
         FROM
-        	richware_user
+        	tbl_richware_user
         WHERE
         	id = #{id}
     </select>
@@ -21,7 +21,7 @@
         SELECT
         	COUNT(*)
         FROM
-        	richware_user
+        	tbl_richware_user
         WHERE 
         	userId = #{userId} AND userPwd = #{userPw}
     </select>
@@ -31,7 +31,7 @@
         SELECT
         	COUNT(*)
         FROM
-        	tbluser
+        	tbl_richware_user
         WHERE
         	userId = #{userId}
     </select>
@@ -41,74 +41,9 @@
         SELECT
         	COUNT(*)
         FROM
-        	tbluser
+        	tbl_richware_user
         WHERE
         	userNick = #{userNick}
     </select>
-    
-    <select id = "getUserNick" resultType = "String">
-        SELECT
-        	userNick
-        FROM
-        	tbluser
-        WHERE
-        	userId = #{userId}
-    </select>
-    <!-- userid 찾기 -->
-    <select id = "findUserId" parameterType="String" resultType="String">
-        SELECT 
-        	userId
-        FROM
-        	tbluser
-        WHERE
-        	userNick = #{userNick}
-    </select>
-    
-    <!-- userpwd 찾기 -->
-    <select id = "findUserPwd" parameterType="hashMap" resultType="String">
-        SELECT
-        	userPwd
-        FROM
-        	tbluser
-        WHERE userId = #{userId} AND userNick = #{userNick} 
-    </select>
-
-    <select id = "isLeave" resultType = "int">
-        SELECT
-        	COUNT(*)
-        FROM
-        	tbluser
-        WHERE userId = #{userId} AND isLeave = 'Y'
-        	
-    </select>
-    
-    <select id = "getUserPushKey" resultType = "string">
-        SELECT
-        	registrationKey
-        FROM
-        	tbluser A
-        	JOIN tblreceivenotice B ON A.userId = B.userId
-        WHERE A.userId = #{userId}
-        	<if test = "pushType == 'follow'">
-        	    AND B.receiveFollow = 'Y'
-        	</if>
-        	<if test = "pushType == 'comment'">
-        	    AND B.receiveComment = 'Y'
-        	</if>
-        	<if test = "pushType == 'like'">
-        	    AND B.receiveLike = 'Y'
-        	</if>
-        	<if test = "pushType == 'mention'">
-        	    AND B.receiveRecommend = 'Y'
-        	</if>
-    </select>
-    
-    <select id = "getUserPushKeyList" resultType = "UserBean">
-		SELECT B.registrationKey, 1 AS deviceType FROM tbluserfollow A
-			JOIN tbluser B ON A.followId = B.userId
-			JOIN tblreceivenotice C ON B.userId = C.userId
-		WHERE A.userId = #{userId} AND C.receiveCoordi = 'Y'
-    </select>
-    
 	
 </mapper>
