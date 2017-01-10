@@ -1,0 +1,23 @@
+package core.engine;
+
+import com.appg.gpack.svc.factory.BaseServiceEngine;
+
+import core.logic.svc.UserSvc;
+
+/**
+ * 서비스 엔진
+ * @author nukiboy
+ *
+ */
+public class ServiceEngine extends BaseServiceEngine {
+	private UserSvc userSvc;
+
+	public UserSvc getUserSvc()
+	{
+		return userSvc;
+	}
+	public void setUserSvc(UserSvc userSvc)
+	{
+		this.userSvc = userSvc;
+	}
+}

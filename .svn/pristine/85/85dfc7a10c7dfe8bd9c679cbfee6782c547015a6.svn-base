@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector.J 5.1/mysql-connector-java-5.1.34-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/khm/Downloads/mybatis-3.2.8/mybatis-3.2.8/mybatis-3.2.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/khm/Downloads/commons-logging-1.2-bin/commons-logging-1.2/commons-logging-1.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/GPack"/>
+	<classpathentry kind="lib" path="lib/libthrift-0.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/orika-core-1.4.5-deps-included.jar"/>
+	<classpathentry kind="lib" path="lib/orika-core-1.4.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/khm/Downloads/log4j-1.2.17/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/khm/Downloads/slf4j-1.7.10/slf4j-1.7.10/slf4j-log4j12-1.7.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/khm/Downloads/log4jdbc-1.2/log4jdbc-1.2/build/log4jdbc4-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/imgscalr-lib-4.2.jar"/>
+	<classpathentry kind="lib" path="/stylewithme_share/lib/jsch-0.1.52.jar"/>
+	<classpathentry kind="lib" path="lib/gcm-server.jar"/>
+	<classpathentry kind="lib" path="lib/JavaPNS_2.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/thrift_share"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

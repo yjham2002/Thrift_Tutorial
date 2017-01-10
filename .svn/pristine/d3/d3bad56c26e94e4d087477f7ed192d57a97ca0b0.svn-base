@@ -1,0 +1,8 @@
+
+thrift -out C:\Users\khm\workspace\thrift_share\src --gen java:beans C:\Users\khm\workspace\thrift\src\tool\thrift\idl\thrift.idl
+
+thrift -out C:\Users\khm\workspace\thrift_share\src\thrift\gen\php  --gen php:oop C:\Users\khm\workspace\thrift\src\tool\thrift\idl\thrift.idl
+
+
+
+

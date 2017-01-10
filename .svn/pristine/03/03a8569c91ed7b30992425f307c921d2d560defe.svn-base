@@ -1,0 +1,31 @@
+package core.logic.mybatis.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import core.logic.bean.persistence.UserBean;
+import core.logic.bean.result.UserResult;
+
+public interface UserMapper
+{
+
+	public UserResult getUserInfo(String userId);
+
+	public String findUserId(String userNick);
+
+	public String findUserPwd(Map<String, String> params);
+
+	public Integer Login(Map<String, Object> params);
+
+	public Integer duplicateUserId(String userId);
+
+	public Integer duplicateUserNick(String userNick);
+
+	String getUserNick(String userId);
+
+	int isLeave(String userId);
+
+	String getUserPushKey(Map<String, Object> params);
+	
+	List<UserBean> getUserPushKeyList(String userId);
+}

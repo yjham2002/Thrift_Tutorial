@@ -1,0 +1,297 @@
+package core.logic.svc;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.session.SqlSession;
+
+import com.appg.gpack.common.exception.ServiceException;
+import com.appg.gpack.logic.basic.svc.email.bean.EmailBean;
+import com.appg.thrift.anno.ThriftAdminMethod;
+import com.appg.thrift.anno.ThriftMethod;
+
+import core.common.constants.Constants;
+import core.common.util.EncryptMD5;
+import core.common.util.FileUpload;
+import core.engine.ServiceEngine;
+import core.engine.ServiceEngineFactory;
+import core.logic.bean.persistence.FileBean;
+import core.logic.bean.persistence.UserBean;
+import core.logic.bean.result.UserResult;
+import core.logic.mybatis.DBSessionManager;
+import core.logic.mybatis.mapper.UserMapper;
+
+/**
+ * 유저 관련 클래스 입니다. 
+ * @author khm
+ *
+ */
+public class UserSvc extends DBSessionManager
+{
+	private final static Log	logger	= LogFactory.getLog(UserSvc.class);
+	ServiceEngine	serviceEngine	= null;
+	public UserSvc() throws ServiceException
+	{
+		ServiceEngineFactory serviceEngineFactory = ServiceEngineFactory.getInstance();
+		serviceEngine = serviceEngineFactory.getEngine();
+	}
+
+	
+	/**
+	 * 유저 정보를 불러올때 사용하는 호출 함수 입니다.
+	 * @param id
+	 * 유저 아이디
+	 * @return
+	 * @throws ServiceException
+	 */
+	@ThriftMethod
+	public UserResult getUserInfo(String id) throws ServiceException
+	{
+		// logger.info(id);
+		SqlSession session = null;
+		UserResult userInfo = null;
+
+		try
+		{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			userInfo = mapper.getUserInfo(id);
+			if(userInfo == null){
+				throw new ServiceException(-1, "유저 정보가 없습니다.");
+			}
+		}
+		catch (ServiceException e)
+		{
+			throw new ServiceException(-1, "유저 정보가 없습니다.");
+		}
+		finally
+		{
+			closeSession(session);
+		}
+
+		return userInfo;
+	}
+	
+	/**
+	 * 이미지파일 업로드
+	 * 
+	 * @param fileBeans
+	 *            파일빈
+	 * @return
+	 * @throws ServiceException
+	 */
+	@ThriftAdminMethod
+	@ThriftMethod
+	public List<FileBean> imgFileUpload(List<FileBean> fileBeans) throws ServiceException
+	{
+		List<FileBean> result = null;
+
+		FileUpload fu = new FileUpload();
+
+		try
+		{
+			result = fu.imgFileUpload(fileBeans, Constants.UPLOAD_IMAGE_SIZE);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(-1, "파일업로드 실패");
+		}
+
+		return result;
+	}
+
+	/**
+	 * 파일 업로드
+	 * 
+	 * @param fileBeans
+	 *            파일빈
+	 * @return
+	 * @throws ServiceException
+	 */
+	@ThriftAdminMethod
+	@ThriftMethod
+	public List<FileBean> fileUpload(List<FileBean> fileBeans) throws ServiceException
+	{
+		List<FileBean> result = null;
+
+		FileUpload fu = new FileUpload();
+
+		try
+		{
+			result = fu.fileUpload(fileBeans);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(-1, "파일업로드 실패");
+		}
+
+		return result;
+	}
+	
+	/**
+	 * 회원가입 시 아이디 중복체크 호출 함수 입니다.
+	 * @param id
+	 * 회원가입 아이디
+	 * @return 0이면 중복X 1이면 중복 
+	 * @throws ServiceException
+	 */
+	@ThriftMethod
+	public String duplicateUserId(String id) throws ServiceException
+	{
+		// logger.info(id);
+
+		SqlSession session = null;
+		int count = 0;
+		String resultMsg = "";
+		try
+		{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			count = mapper.duplicateUserId(id);
+			if(count < 1){
+				resultMsg = "사용가능한 아이디 입니다.";
+			}
+			else{
+				throw new ServiceException(-1, "사용할 수 없는 아이디 입니다.");
+			}
+		}
+		finally
+		{
+			closeSession(session);
+		}
+		return resultMsg;
+	}
+	/**
+	 * 회원가입 시 닉네임&이름 을 중복체크 호출 함수 입니다.
+	 * @param userNick
+	 * 회원가입 닉네임or이름
+	 * @return 0이면 중복X 1이면 중복 -1 에러
+	 * @throws ServiceException
+	 */
+	@ThriftMethod
+	public String duplicateUserNick(String userNick) throws ServiceException
+	{
+		// logger.info(userNick);
+
+		SqlSession session = null;
+		int count = 0;
+		String resultMsg = "";
+		try
+		{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			count = mapper.duplicateUserNick(userNick);
+			if(count < 1){
+				resultMsg = "사용가능한 닉네임 입니다.";
+			}
+			else{
+				throw new ServiceException(-1, "사용할 수 없는 닉네임 입니다.");
+			}
+			// throw new ApiServiceException(VarConst.ErrorCode.SERVER_CHECK_ERROR);
+		}
+		finally
+		{
+			closeSession(session);
+		}
+		return resultMsg;
+	}
+	
+	
+	/**
+	 * 유저 아이디를 찾을때 호출하는 함수 입니다.
+	 * @param userNick
+	 * 유저 닉네임
+	 * @return
+	 * @throws ServiceException
+	 */
+	@ThriftMethod
+	public String findUserId(String userNick) throws ServiceException
+	{
+		// logger.info(userNick);
+
+		SqlSession session = null;
+		String userId = "";
+		try
+		{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			userId = mapper.findUserId(userNick);
+			if(userId.equalsIgnoreCase("")){
+				throw new ServiceException(-1, "일치하는 아이디가 없습니다.");
+			}
+		}
+		catch (ServiceException e)
+		{
+			throw new ServiceException(-1, "아이디 찾기 실패");
+		}
+		finally
+		{
+			closeSession(session);
+		}
+		return userId;
+	}
+
+	
+	/**
+	 * 유저 비밀번호를 찾을때 호출하는 함수 입니다.
+	 * @param userId
+	 * 유저아이디
+	 * @param userNick
+	 * 유저 닉네임or이름
+	 * @return
+	 * @throws ServiceException
+	 */
+	@ThriftMethod
+	public String findUserPwd(String userId, String userNick) throws ServiceException
+	{
+		// logger.info(params);
+		SqlSession session = null;
+		String userPwd = "";
+		EncryptMD5 md5 = new EncryptMD5();
+		
+		try
+		{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			Map<String, String> params = new HashMap<String, String>();
+			String email = "";
+			params.put("userId", userId);
+			params.put("userNick", userNick);
+			try
+			{
+				userPwd = md5.decrypt_md5(mapper.findUserPwd(params), "");
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			EmailBean emailBean = new EmailBean();
+
+			emailBean.setTo(userId);
+			emailBean.setFrom(Constants.EMAIL_ID);
+			emailBean.setSubject("[StyleWithMe] 회원님의 비밀번호 찾기 결과입니다.");
+			emailBean.setMessage("회원님의 비밀번호는 " + userPwd + " 입니다.");
+			
+						
+			if(userPwd.equalsIgnoreCase("")){
+				throw new ServiceException(-1, "일치하는 비밀번호가 없습니다.");
+			}
+			
+			serviceEngine.getEmail().send(emailBean);
+		}
+		catch (ServiceException e)
+		{
+			throw new ServiceException(-1, "비밀번호 전송에 실패하였습니다.");
+		}
+		finally
+		{
+			closeSession(session);
+		}
+		return userPwd;
+	}
+	
+}

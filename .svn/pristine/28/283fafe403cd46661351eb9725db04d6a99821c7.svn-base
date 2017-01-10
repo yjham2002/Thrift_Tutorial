@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="core.logic.mybatis.mapper.UserMapper">
+    
+    <select id="getUserInfo" parameterType="String" resultType="UserResult">
+        SELECT 
+        	userId
+        	, userNick
+        	, userGender
+        	, userTall
+        	, userProfileImageurl
+        	, userLink1
+        	, userLink2
+        	, userLink3
+        	, userLink4
+        	, userLink5
+        	, userIntroduce
+        	, deviceID
+        	, storeTypeID
+        	, registrationKey
+        	, appVersion
+        	, deviceType
+        	, regDate
+        	, locate
+        FROM
+        	tbluser
+        WHERE
+        	userId = #{userId}
+    </select>
+    
+    <select id="Login" parameterType="hashMap" resultType="Integer">
+        SELECT
+        	COUNT(*)
+        FROM
+        	tbluser
+        WHERE userId = #{userId} AND userPwd = #{userPwd}
+    </select>
+    
+    <!-- userId 중복 체크 -->
+    <select id = "duplicateUserId" parameterType="String" resultType="Integer">
+        SELECT
+        	COUNT(*)
+        FROM
+        	tbluser
+        WHERE
+        	userId = #{userId}
+    </select>
+    
+    <!-- userNick 중복 체크 -->
+   <select id = "duplicateUserNick" parameterType="String" resultType="Integer">
+        SELECT
+        	COUNT(*)
+        FROM
+        	tbluser
+        WHERE
+        	userNick = #{userNick}
+    </select>
+    
+    <select id = "getUserNick" resultType = "String">
+        SELECT
+        	userNick
+        FROM
+        	tbluser
+        WHERE
+        	userId = #{userId}
+    </select>
+    <!-- userid 찾기 -->
+    <select id = "findUserId" parameterType="String" resultType="String">
+        SELECT 
+        	userId
+        FROM
+        	tbluser
+        WHERE
+        	userNick = #{userNick}
+    </select>
+    
+    <!-- userpwd 찾기 -->
+    <select id = "findUserPwd" parameterType="hashMap" resultType="String">
+        SELECT
+        	userPwd
+        FROM
+        	tbluser
+        WHERE userId = #{userId} AND userNick = #{userNick} 
+    </select>
+
+    <select id = "isLeave" resultType = "int">
+        SELECT
+        	COUNT(*)
+        FROM
+        	tbluser
+        WHERE userId = #{userId} AND isLeave = 'Y'
+        	
+    </select>
+    
+    <select id = "getUserPushKey" resultType = "string">
+        SELECT
+        	registrationKey
+        FROM
+        	tbluser A
+        	JOIN tblreceivenotice B ON A.userId = B.userId
+        WHERE A.userId = #{userId}
+        	<if test = "pushType == 'follow'">
+        	    AND B.receiveFollow = 'Y'
+        	</if>
+        	<if test = "pushType == 'comment'">
+        	    AND B.receiveComment = 'Y'
+        	</if>
+        	<if test = "pushType == 'like'">
+        	    AND B.receiveLike = 'Y'
+        	</if>
+        	<if test = "pushType == 'mention'">
+        	    AND B.receiveRecommend = 'Y'
+        	</if>
+    </select>
+    
+    <select id = "getUserPushKeyList" resultType = "UserBean">
+		SELECT B.registrationKey, 1 AS deviceType FROM tbluserfollow A
+			JOIN tbluser B ON A.followId = B.userId
+			JOIN tblreceivenotice C ON B.userId = C.userId
+		WHERE A.userId = #{userId} AND C.receiveCoordi = 'Y'
+    </select>
+    
+    
+	<resultMap type="DataMap" id="OrderMap">
+	    <id column="productNumber" javaType="int" property="productNumber" />
+	    <collection property="optionList" ofType="DataMap" column="{productNumber=productNumber, franchiseNumber=franchiseNumber}" select="getListOfProductOption" />
+	</resultMap>
+	
+</mapper>

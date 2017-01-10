@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!-- 쓰리프트 수정 및 개발서버 업로드 까지 자동화 툴 
+1. IDL 자동생성
+2. 쓰리프트 라이브러리 생성
+3. 개발 웹서버로 라이브러리 업도드
+4. 자바독 생성
+-->
+<project name="GINI_THRIFT_COMPLIE"  default="JAVADOC">
+        <!-- 프로퍼티를 지정 합니다. -->
+        <property file="build.properties"/>
+        <property name="base.dir"  value="."/>
+        <property name="dist.dir"  value="dist"/>
+        <property name="build.dir" value="build"/>
+        <property name="src.dir"   value="src"/>
+        <property name="jar.file"  value="${version}_ktourAppServer.jar"/>
+        <property name="dist.file"  value="${version}_ktourAppServer.zip"/>
+		
+		<property name="dev_host"  value="182.161.118.73"/>
+		<property name="local_thrift_home"  value="C:\Users\KangJu\workspace\ktour_share\src\thrift\gen\php\ThriftService"/>	
+		<property name="dev_thrift_home"  value="/home/ktour/global/cls/ThriftService"/>
+		<property name="username"  value="root"/>
+		<property name="password"  value="$#@!richware7"/>
+		
+        
+        <!-- 빌드 초기 단계에 날짜 및 시간을 출력 -->
+        <target name="PREPARE">
+                    <tstamp>
+                                <format property="DSTAMP" pattern="yyyy.mm.dd"/>
+                                <format property="TSTAMP" pattern="HH:mm"/>
+                    </tstamp>
+                    <echo message="[개발환경]1. 쓰리프트 변경 배포 시작. ${DSTAMP}-${TSTAMP}"/>
+        </target>
+	
+	<target name="AUTOIDL" depends="PREPARE">
+	    <java classname="tool.thrift.maker.GenIDLToolApp">
+	         <classpath>	         	
+	         	<pathelement path="C:\Users\KangJu\workspace\GGOM_THRIFT_CALLBACK\bin" />	         	
+	         	<pathelement path="C:\Users\KangJu\workspace\ktour_share\bin"/>
+	           <pathelement path="C:\Users\KangJu\workspace\ktour\bin"/>
+	           	<pathelement path="C:\Users\KangJu\workspace\GPack\bin"/>	        	         	
+	         	<fileset dir="C:\Users\KangJu\workspace\ktour_share\lib">
+	         	<include name="*.jar"/>
+	         	</fileset>	           	
+	         	<fileset dir="C:\Users\KangJu\workspace\ktour\lib">
+	         	<include name="*.jar"/>
+	         	</fileset>	           		         	
+	         	
+	         </classpath>	    		      
+	    </java>
+		<echo message="[개발환경]2. 쓰리프트 IDL 파일 자동생성 ${DSTAMP}-${TSTAMP}"/>
+	</target>
+	 
+	<target name="GENTHRIFT" depends="AUTOIDL">
+	  <exec executable="cmd">
+	    <arg value="/c"/>
+	    <arg value="C:\Users\KangJu\workspace\ktour\src\tool\thrift\idl\gen.bat"/>
+	    <arg value="-p"/>
+	  </exec>
+		<echo message="[개발환경]3. 쓰리프트 GEN 파일 생성 ${DSTAMP}-${TSTAMP}"/>	  	
+	</target>	
+	
+	<target name="REMOTE_COPY" depends="GENTHRIFT">
+	 	<scp todir="${username}:${password}@${dev_host}:${dev_thrift_home}" trust="true">
+		    <fileset dir="${local_thrift_home}"/>
+	  	</scp>
+	 	<echo message="[개발환경]4. 리얼서버로 쓰리프트 PHP 서버로 업로드  ${DSTAMP}-${TSTAMP}"/>		
+	</target>
+		
+	<!-- 
+    <target name="JAVADOC" depends="REMOTE_COPY">
+        <javadoc access="private" additionalparam="-encoding UTF-8 -charset UTF-8 -docencoding UTF-8 " author="true" classpath="C:\work14\GPack\lib\commons-beanutils-core-1.8.3.jar;C:\work14\GPack\lib\json_simple-1.1.jar;C:\work14\jiini\lib\log4j-1.2.16.jar;C:\work14\GPack\lib\morphia-entityscanner-plug-0.108.jar;C:\work14\GPack\lib\quartz-jobs-2.2.1.jar;C:\work14\GPack\lib\commons-dbcp-1.3.jar;C:\work14\GPack\lib\slf4j-log4j12-1.6.6.jar;C:\work14\jini_share\lib\log4j-1.2.14.jar;C:\work14\GGOM_THRIFT_CALLBACK\bin;C:\work14\GGOM_THRIFT_CALLBACK\lib\slf4j-api-1.5.8.jar;C:\work14\GPack\lib\commons-dbutils-1.0.jar;C:\work14\GPack\lib\slf4j-api-1.6.6.jar;C:\work14\jiini\lib\commons-beanutils-1.8.3.jar;C:\work14\jiini\lib\commons-pool-1.5.5.jar;C:\work14\GPack\lib\commons-pool-1.5.5.jar;C:\work14\GGOM_THRIFT_CALLBACK\lib\slf4j-log4j12-1.5.8.jar;C:\work14\jini_share\lib\slf4j-log4j12-1.5.8.jar;C:\work14\jini_share\lib\libthrift-0.9.1.jar;C:\work14\GPack\lib\mysql-connector-java-5.1.12-bin.jar;C:\work14\jiini\lib\joda-time-2.3.jar;C:\work14\jiini\lib\httpclient-4.2.5.jar;C:\work14\jiini\lib\morphia-entityscanner-plug-0.108.jar;C:\work14\GPack\lib\commons-httpclient-3.0.1.jar;C:\work14\GGOM_THRIFT_CALLBACK\lib\libthrift-0.9.1.jar;C:\work14\jiini\lib\libthrift-0.9.1.jar;C:\work14\jiini\lib\morphia-0.108.jar;C:\work14\GPack\lib\mongo-java-driver-2.12.3.jar;C:\work14\jiini\lib\commons-lang-2.1.jar;C:\work14\GPack\lib\joda-time-2.3.jar;C:\work14\jiini\lib\orika-core-1.4.5.jar;C:\work14\GPack\lib\sms\whois\commons-io.jar;C:\work14\jini_share\lib\slf4j-api-1.5.8.jar;C:\work14\jiini\lib\morphia-logging-slf4j-0.108.jar;C:\work14\GPack\lib\sms\whois\rhino.jar;C:\work14\jiini\lib\commons-lang3-3.1.jar;C:\work14\GGOM_THRIFT_CALLBACK\lib\log4j-1.2.16.jar;C:\work14\GPack\lib\commons-beanutils-1.8.3.jar;C:\work14\jiini\lib\commons-beanutils-core-1.8.3.jar;C:\work14\GPack\lib\commons-lang.jar;C:\work14\jiini\lib\ezmorph-1.0.6.jar;C:\work14\jiini\lib\commons-httpclient-3.0.1.jar;C:\work14\GPack\lib\morphia-guice-plug-0.108.jar;C:\work14\jiini\lib\morphia-guice-plug-0.108.jar;C:\work14\GPack\lib\ezmorph-1.0.6.jar;C:\work14\GPack\lib\orika-core-1.4.5-deps-included.jar;C:\work14\GPack\lib\dozer-5.3.2.jar;C:\work14\GPack\lib\slf4j-api-1.5.8.jar;C:\work14\jiini\lib\commons-dbcp-1.3.jar;C:\work14\jiini\lib\commons-lang3-3.3.2.jar;C:\work14\GPack\lib\sms\whois\mail.jar;C:\work14\GPack\lib\sms\whois\commons-codec.jar;C:\work14\jiini\lib\commons-logging-1.1.1.jar;C:\work14\jiini\lib\commons-codec-1.6.jar;C:\work14\GPack\lib\sms\whois\xmlrpc.jar;C:\work14\jiini\lib\commons-io-2.4.jar;C:\work14\jiini\lib\commons-dbutils-1.0.jar;C:\work14\GPack\lib\morphia-0.108.jar;C:\work14\GPack\lib\slf4j-log4j12-1.5.8.jar;C:\work14\GPack\bin;C:\work14\GPack\lib\sms\whois\tagsoup.jar;C:\work14\jiini\lib\json-lib-2.4-jdk15.jar;C:\work14\GPack\lib\gcm-server.jar;C:\work14\GPack\lib\commons-collections-3.2.1.jar;C:\work14\jiini\lib\slf4j-api-1.5.8.jar;C:\work14\GPack\lib\sms\whois\commons-logging.jar;C:\work14\jiini\lib\commons-collections-3.2.1.jar;C:\work14\GPack\lib\log4j-1.2.16.jar;C:\work14\GPack\lib\sms\whois\commons-fileupload.jar;C:\work14\GPack\lib\sms\whois\servlet.jar;C:\work14\jiini\lib\orika-core-1.4.5-deps-included.jar;C:\work14\GPack\lib\netty-3.6.2.Final.jar;C:\work14\GPack\lib\quartz-2.2.1.jar;C:\work14\jiini\lib\junit-4.4.jar;C:\work14\GPack\lib\sms\whois\commons-net.jar;C:\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;C:\work14\jiini\lib\json_simple-1.1.jar;C:\work14\jiini\lib\servlet-api-2.5.jar;C:\work14\GPack\lib\commons-logging-1.1.1.jar;C:\work14\jiini\lib\morphia-validation-0.108.jar;C:\work14\GPack\lib\c3p0-0.9.1.1.jar;C:\work14\GPack\lib\commons-email-1.3.3.jar;C:\work14\GPack\lib\commons-beanutils-bean-collections-1.8.3.jar;C:\work14\jiini\lib\commons-lang.jar;C:\eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;C:\work14\GPack\lib\morphia-logging-slf4j-0.108.jar;C:\work14\jiini\lib\commons-beanutils-bean-collections-1.8.3.jar;C:\work14\GPack\lib\sms\whois\helma.jar;C:\work14\GPack\lib\commons-io-2.4.jar;C:\work14\GPack\lib\log4j-1.2.14.jar;C:\work14\GPack\lib\sms\whois\jetty.jar;C:\work14\GPack\lib\commons-codec-1.4.jar;C:\work14\GPack\lib\sms\whois\activation.jar;C:\work14\jiini\lib\httpcore-4.2.4.jar;C:\work14\GPack\lib\mongo-2.10.1.jar;C:\work14\GPack\external;C:\work14\GPack\lib\morphia-validation-0.108.jar;C:\work14\jiini\lib\slf4j-log4j12-1.5.8.jar;C:\work14\GPack\lib\orika-core-1.4.5.jar;C:\work14\GPack\lib\json-lib-2.4-jdk15.jar;C:\work14\jini_share\bin;C:\work14\jiini\lib\mongo-java-driver-2.12.3.jar;C:\work14\GPack\lib\libthrift-0.9.1.jar" destdir="C:\apm\public_html\gini" doctitle="지니 DOC" nodeprecated="false" nodeprecatedlist="false" noindex="true" nonavbar="false" notree="false" packagenames="com.appg.gpack.logic.basic.svc.file.bean,com.appg.gpack.logic.basic.svc.ftp,com.appg.gpack.logic.basic.svc.cron.quartz.impl,com.appg.tool.bean,test.anno.anno,test.tool.thrift,com.appg.gpack.logic.member.dao.bean,com.appg.gpack.logic.basic.svc.batch.bean,com.appg.gpack.common.exception,com.appg.gpack.logic.basic.svc.sms,tool.thrift.maker,com.appg.gpack.logic.board.dao,com.appg.tool.admin.bean,com.appg.gpack.logic.member.svc.impl,core.common.bean,com.appg.gpack.svc.processor,com.appg.gpack.logic.basic.svc.http,com.appg.gpack.logic.basic.svc.push.impl.ggom_v1.thrift,com.appg.gpack.logic.basic.svc.calendar.svc,com.appg.gpack.common.list,com.appg.gpack.logic.board.svc,test.anno.date,com.appg.gpack.logic.board.dao.bean,server,test.anno,com.appg.gpack.common.bean,com.appg.gpack.logic.member.bean,com.appg.gpack.server.thrift,com.appg.gpack.svc,com.appg.gpack.db.mongo.factory,com.appg.gpack.logic.basic.svc.cron.quartz.bean,com.appg.gpack.logic.board.v2.dao,com.appg.gpack.db.mongo.dao,com.appg.gpack.logic.basic.svc.cron,com.appg.thrift.tool.bean,core.logic.bean.board,com.appg.gpack.logic.basic.svc.email.bean,com.appg.gpack.logic.basic.svc.properties,com.appg.gpack.logic.basic.svc.file,com.appg.gpack.logic.basic.svc.calendar.bean,test.common,core.logic.inter,com.appg.gpack.server,core.logic.bean.resource,com.appg.thrift.anno,com.appg.gpack.logic.member.svc,com.appg.gpack.svc.util,com.appg.gpack.logic.basic.svc.file.impl,com.appg.gpack.svc.generic.dao1,com.appg.gpack.logic.member.util,com.appg.thrift.util,com.appg.gpack.logic.member.dao.bean.v2,com.appg.gpack.logic.basic.svc.email,com.appg.gpack.logic.member.dao.bean.v3.log,core.logic.bean.member,test.anno.manager,com.appg.gpack.logic.member.dao.bean.v3,com.appg.gpack.logic.board.v2.svc.impl,core.logic.bean.member.product,com.appg.thrift.tool,core.logic.svc,com.appg.gpack.db.mongo.util,com.appg.gpack.logic.board.v2.svc,core.orika,com.appg.gpack.common,com.appg.gpack.logic.basic.svc.statics,test.junit,com.appg.gpack.logic.board.bean,com.appg.gpack.logic.basic.svc.push,com.appg.gpack.db.mongo.anno,com.appg.gpack.common.util,core.logic.bean.member.comCalendar,com.appg.gpack.svc.factory,core.factory,com.appg.gpack.logic.basic.svc.push.bean,com.appg.gpack.logic.basic.svc.sms.impl,core.common.constants,com.appg.thrift.tool.annotation,com.appg.gpack.db,core.logic.bean.submit,com.appg.gpack.logic.member.dao,com.appg.gpack.logic.basic.svc.push.impl.ggom_v1,com.appg.gpack.logic.board.svc.impl.bean,core.thrift.handler,com.appg.gpack.logic.board.svc.impl,com.appg.gpack.logic.basic.svc.email.impl,com.appg.gpack.logic.basic.svc.batch,com.appg.gpack.db.mongo.builder,com.appg.gpack.svc.generic.dao2,com.appg.gpack.logic.basic.svc.statics.bean" source="1.6" sourcefiles="C:\work14\jiini\src\test\CalTestApp.java,C:\work14\jiini\src\test\TestFieldApp.java,C:\work14\jiini\src\test\TestRandomApp.java" sourcepath="C:\work14\GPack\src;C:\work14\jiini\src" splitindex="false" use="true" version="true"/>
+		<echo message="[개발환경]5. 자바독 생성  ${DSTAMP}-${TSTAMP}"/>    
+	</target>
+	 -->
+	
+        
+</project>

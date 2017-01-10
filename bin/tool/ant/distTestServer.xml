@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!-- 실서버에 어플리케이션서버를 배포 하는 스크립트 -->
+
+<!-- 쓰리프트 수정 및 개발서버 업로드 까지 자동화 툴 
+1. JAR 파일 생성
+
+-->
+<project name="STYLEWITHME_DIST_TEST_SERVER"  default="SSHEXEC">
+        
+        <property name="jarfile"  value="stylewithme.jar"/>
+        <property name="jar_local_path"  value="C:/jar/${jarfile}"/>        		
+		<property name="dist_host"  value="182.161.118.73"/>	
+		<property name="dist_server_home"  value="/home/stylewithmeserver"/>
+		<property name="username"  value="root"/>
+		<property name="password"  value="$#@!richware19"/>
+        
+        <!-- 빌드 초기 단계에 날짜 및 시간을 출력 -->
+        <target name="PREPARE">
+                    <tstamp>
+                                <format property="DSTAMP" pattern="yyyy.mm.dd"/>
+                                <format property="TSTAMP" pattern="HH:mm"/>
+                    </tstamp>
+                    <echo message="[개발환경]1. StyleWithMe 서버  배포 시작. ${DSTAMP}-${TSTAMP}"/>
+        </target>
+	
+	                 
+    	<target name="MAKE_JAR" depends="PREPARE">
+        	<jar destfile="${jar_local_path}">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="server.StyleWithMeServerApp"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ junit.jar org.hamcrest.core_1.3.0.v201303031735.jar mysql-connector-java-5.1.34-bin.jar mybatis-3.2.8.jar commons-logging-1.2.jar commons-beanutils-1.8.3.jar commons-beanutils-bean-collections-1.8.3.jar commons-beanutils-core-1.8.3.jar commons-codec-1.4.jar commons-collections-3.2.1.jar commons-dbcp-1.3.jar commons-dbutils-1.0.jar commons-httpclient-3.0.1.jar commons-lang.jar commons-logging-1.1.1.jar commons-pool-1.5.5.jar ezmorph-1.0.6.jar gcm-server.jar joda-time-2.3.jar json_simple-1.1.jar json-lib-2.4-jdk15.jar log4j-1.2.16.jar mysql-connector-java-5.1.12-bin.jar netty-3.6.2.Final.jar mongo-java-driver-2.12.3.jar activation.jar commons-codec.jar commons-fileupload.jar commons-io.jar commons-logging.jar commons-net.jar helma.jar jetty.jar mail.jar rhino.jar servlet.jar tagsoup.jar xmlrpc.jar commons-email-1.3.3.jar libthrift-0.9.1.jar log4j-1.2.14.jar slf4j-api-1.5.8.jar slf4j-log4j12-1.5.8.jar commons-io-2.4.jar mongo-2.10.1.jar dozer-5.3.2.jar orika-core-1.4.5-deps-included.jar orika-core-1.4.5.jar libthrift-0.9.1.jar log4j-1.2.16.jar slf4j-api-1.5.8.jar slf4j-log4j12-1.5.8.jar c3p0-0.9.1.1.jar quartz-2.2.1.jar quartz-jobs-2.2.1.jar slf4j-api-1.6.6.jar slf4j-log4j12-1.6.6.jar morphia-0.108.jar morphia-entityscanner-plug-0.108.jar morphia-guice-plug-0.108.jar morphia-logging-slf4j-0.108.jar morphia-validation-0.108.jar mybatis-3.2.8.jar libthrift-0.9.1.jar orika-core-1.4.5-deps-included.jar orika-core-1.4.5.jar log4j-1.2.16.jar slf4j-api-1.6.6.jar slf4j-log4j12-1.6.6.jar log4j-1.2.17.jar slf4j-log4j12-1.7.10.jar log4jdbc4-1.2.jar imgscalr-lib-4.2.jar jsch-0.1.52.jar gcm-server.jar JavaPNS_2.2.jar"/>
+            </manifest>
+            <zipfileset src="c:\jar\jar-in-jar-loader.zip"/>
+			<fileset dir="C:/Users/khm/workspace/stylewithme/bin"/>
+           <zipfileset dir="C:\Users\khm\Downloads\eclipse-jee-luna-SR1a-win32-x86_64\eclipse\plugins\org.junit_4.11.0.v201303080030" includes="junit.jar"/>
+            <zipfileset dir="C:\Users\khm\Downloads\eclipse-jee-luna-SR1a-win32-x86_64\eclipse\plugins" includes="org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            <zipfileset dir="C:\Program Files (x86)\MySQL\Connector.J 5.1" includes="mysql-connector-java-5.1.34-bin.jar"/>
+            <zipfileset dir="C:\Users\khm\Downloads\mybatis-3.2.8\mybatis-3.2.8" includes="mybatis-3.2.8.jar"/>
+            <zipfileset dir="C:\Users\khm\Downloads\commons-logging-1.2-bin\commons-logging-1.2" includes="commons-logging-1.2.jar"/>
+            <fileset dir="C:/Users/khm/workspace/GPack/bin"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-beanutils-1.8.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-beanutils-bean-collections-1.8.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-beanutils-core-1.8.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-codec-1.4.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-collections-3.2.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-dbcp-1.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-dbutils-1.0.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-httpclient-3.0.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-lang.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-logging-1.1.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-pool-1.5.5.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="ezmorph-1.0.6.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="gcm-server.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="joda-time-2.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="json_simple-1.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="json-lib-2.4-jdk15.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="log4j-1.2.16.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="mysql-connector-java-5.1.12-bin.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="netty-3.6.2.Final.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="mongo-java-driver-2.12.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="activation.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="commons-codec.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="commons-fileupload.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="commons-io.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="commons-logging.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="commons-net.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="helma.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="jetty.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="mail.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="rhino.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="servlet.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="tagsoup.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib\sms\whois" includes="xmlrpc.jar"/>
+            <fileset dir="C:/Users/khm/workspace/GPack/external"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-email-1.3.3.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="libthrift-0.9.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="log4j-1.2.14.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="slf4j-api-1.5.8.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="slf4j-log4j12-1.5.8.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="commons-io-2.4.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="mongo-2.10.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="dozer-5.3.2.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="orika-core-1.4.5-deps-included.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="orika-core-1.4.5.jar"/>
+            <fileset dir="C:/Users/khm/workspace/GGOM_THRIFT_CALLBACK/bin"/>
+            <zipfileset dir="C:\Users\khm\workspace\GGOM_THRIFT_CALLBACK\lib" includes="libthrift-0.9.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GGOM_THRIFT_CALLBACK\lib" includes="log4j-1.2.16.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GGOM_THRIFT_CALLBACK\lib" includes="slf4j-api-1.5.8.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GGOM_THRIFT_CALLBACK\lib" includes="slf4j-log4j12-1.5.8.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="c3p0-0.9.1.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="quartz-2.2.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="quartz-jobs-2.2.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="slf4j-api-1.6.6.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="slf4j-log4j12-1.6.6.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="morphia-0.108.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="morphia-entityscanner-plug-0.108.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="morphia-guice-plug-0.108.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="morphia-logging-slf4j-0.108.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="morphia-validation-0.108.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\GPack\lib" includes="mybatis-3.2.8.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\stylewithme\lib" includes="libthrift-0.9.1.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\stylewithme\lib" includes="orika-core-1.4.5-deps-included.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\stylewithme\lib" includes="orika-core-1.4.5.jar"/>
+            <fileset dir="C:/Users/khm/workspace/thrift_share/bin"/>
+            <zipfileset dir="C:\Users\khm\workspace\thrift_share\lib" includes="log4j-1.2.16.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\thrift_share\lib" includes="slf4j-api-1.6.6.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\thrift_share\lib" includes="slf4j-log4j12-1.6.6.jar"/>
+            <zipfileset dir="C:\Users\khm\Downloads\log4j-1.2.17\apache-log4j-1.2.17" includes="log4j-1.2.17.jar"/>
+            <zipfileset dir="C:\Users\khm\Downloads\slf4j-1.7.10\slf4j-1.7.10" includes="slf4j-log4j12-1.7.10.jar"/>
+            <zipfileset dir="C:\Users\khm\Downloads\log4jdbc-1.2\log4jdbc-1.2\build" includes="log4jdbc4-1.2.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\stylewithme\lib" includes="imgscalr-lib-4.2.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\thrift_share\lib" includes="jsch-0.1.52.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\stylewithme\lib" includes="gcm-server.jar"/>
+            <zipfileset dir="C:\Users\khm\workspace\stylewithme\lib" includes="JavaPNS_2.2.jar"/>
+         </jar>
+		<echo message="[개발환경]2. StyleWithMe 서버  JAR 생성. ${DSTAMP}-${TSTAMP}"/>        
+    </target>
+
+	    	 
+	
+	<target name="REMOTE_COPY" depends="MAKE_JAR">
+	 	<scp todir="${username}:${password}@${dist_host}:${dist_server_home}" trust="true" file="${jar_local_path}"/>
+	 	<echo message="[개발환경]3. 실서버로 JAR 업로드  ${DSTAMP}-${TSTAMP}"/>		
+	</target>
+	
+	<!-- 원격 명령어 실행  /home/appserver/start.sh 처럼 풀로 쓰면 안됨. 아마도 경로 문제??? -->
+	<target name="SSHEXEC" depends="REMOTE_COPY">	
+		<sshexec host="${dist_host}" username="${username}" password="${password}" trust="true" 
+			command="cd ${dist_server_home} ; ./start.sh" timeout="30000" />
+			<sleep seconds="3" />
+		<echo message="[개발환경]4. 서버 재시작  ${DSTAMP}-${TSTAMP}"/>		
+	</target>	
+        
+</project>
