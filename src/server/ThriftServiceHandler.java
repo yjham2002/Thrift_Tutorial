@@ -25,17 +25,14 @@ public class ThriftServiceHandler implements ThriftService.Iface{
 	private ServiceEngine	serviceEngine;
 	private MapperFacade	mp;
 
-	public ThriftServiceHandler()
-	{
+	public ThriftServiceHandler(){
 		ServiceEngineFactory serviceEngineFactory = ServiceEngineFactory.getInstance();
 
-		try
-		{
+		try{
 			this.serviceEngine = serviceEngineFactory.getEngine();
 			this.mp = serviceEngine.getMpFactory().getMapper();
 		}
-		catch (ServiceException e)
-		{
+		catch (ServiceException e){
 			e.printStackTrace();
 		}
 	}

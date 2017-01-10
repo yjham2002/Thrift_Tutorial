@@ -1,6 +1,8 @@
 # Thrift based server with JAVA and PHP
 
-### This document is about the order of processes on constructing Apache thrift based server
+### This document is about the order of processes on constructing Apache thrift based server with making simple website with a board that allows files to be uploaded
+
+- This cause reason why this project provides multi-language.
 
 ##### This Project runs with
 - Thrift as a multiplexer
@@ -11,6 +13,9 @@
 - PHP as views
 
 1. Defining thrift.idl file
+
+- Define the encapsulating structs, methods and exception.
+
 ```c
 namespace java thrift.gen.javacode // Namespace for java and this namespace will be the package
 namespace php ThriftService // Namespace for PHP and this namespace will be the directory of PHP
@@ -46,3 +51,11 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
 	ThriftUserBean getTest(1:int userNumber) throws (1:ThriftServiceException se)  ; 
 } 
 ```
+2. Compiling with Thrift.exe
+
+- Run gen.bat to generate interfaces and required files
+
+    * ThriftService.java and ThriftAdminService.java will be generated.
+    * The files that automatically generated are not necessary to check out.
+    * In directory named server, there are 2 handlers and it is for processing client's requests and providing responses.
+
