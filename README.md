@@ -11,7 +11,7 @@
 - PHP as views
 
 1. Defining thrift.idl file
-```
+```c
 namespace java thrift.gen.javacode
 namespace php ThriftService
 
