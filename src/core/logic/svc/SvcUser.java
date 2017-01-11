@@ -157,8 +157,8 @@ public class SvcUser extends DBSessionManager {
 	 * @throws ServiceException
 	 */
 	@ThriftAdminMethod
-	public UserBean loginUser(String userID, String userPWD) throws ServiceException{
-		UserBean retBean = null;
+	public UserResult loginUser(String userID, String userPWD) throws ServiceException{
+		UserResult retBean = null;
 		SqlSession session = null;
 		int result = 0;
 		if(Constants.IS_DEBUG) {
@@ -175,10 +175,16 @@ public class SvcUser extends DBSessionManager {
 			
 			result = mapper.Login(params);
 			
-			if(result < 1)
-				throw new ServiceException(-999, "sdfsdf");
+			if(result < 1) {
+				logger.info("Login Failed");
+			}else{
+				retBean = mapper.getUserInfo(userID);
+				logger.info("Login Succeeded as [" + retBean.getName() + "]");
+			}
 		}
+		
 		catch(Exception e){
+			e.printStackTrace();
 			throw new ServiceException(-9999, "알수없는에러");
 		}
 		finally{

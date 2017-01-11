@@ -111,28 +111,4 @@ public class ThriftServiceHandler implements ThriftService.Iface{
 		}
 	}
 
-	@Override
-	public String duplicateUserNick(String userNick) throws ThriftServiceException, TException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String findUserPwd(String userId, String userNick) throws ThriftServiceException, TException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String findUserId(String userNick) throws ThriftServiceException, TException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ThriftUserBean getTest(int userNumber) throws ThriftServiceException, TException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

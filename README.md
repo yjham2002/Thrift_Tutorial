@@ -2,6 +2,8 @@
 
 ### This document is about the order of processes on constructing Apache thrift based server with making simple website with a board that allows files to be uploaded
 
+### *Integral Part* of this project is [on Github](https://github.com/yjham2002/Thrift_tutorial_PHP)
+
 - This cause reason why this project provides multi-language.
 
 ##### This Project runs with

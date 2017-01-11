@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="core.logic.mybatis.mapper.UserMapper">
     
-    <select id="getUserInfo" parameterType="int" resultType="UserResult">
+    <select id="getUserInfo" parameterType="String" resultType="UserResult">
         SELECT 
         	id
         	, userId
@@ -14,7 +14,20 @@
         FROM
         	tbl_richware_user
         WHERE
-        	id = #{id}
+        	userId = #{id}
+    </select>
+    
+    <select id="getBoardList" parameterType="String" resultType="UserResult">
+        SELECT 
+        	id
+        	, userId
+        	, userPw
+        	, name
+        	, date
+        FROM
+        	tbl_richware_user
+        WHERE
+        	userId = #{id}
     </select>
     
     <select id="Login" parameterType="hashMap" resultType="Integer">

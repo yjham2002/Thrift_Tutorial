@@ -2,140 +2,72 @@ package core.logic.bean.result;
 
 public class UserResult {
 	
+	private int id;
 	private String userId;
-	private String userNick;
-	private String userPwd;
-	private String userGender;
-	private int userTall;
-	private String userProfileImageurl;
-	private String userLink1;
-	private String userLink2;
-	private String userLink3;
-	private String userLink4;
-	private String userLink5;
-	private String userIntroduce;
-	private String deviceId;
-	private int storeTypeId;
-	private String registrationKey;
-	private String appVersion;
-	private int deviceType;
-	private String regDate;
-	private String locate;
-	
+	private String userPw;
+	private String name;
+	private String date;
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	/**
+	 * @return the userId
+	 */
 	public String getUserId() {
 		return userId;
 	}
+	/**
+	 * @param userId the userId to set
+	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getUserNick() {
-		return userNick;
+	/**
+	 * @return the userPw
+	 */
+	public String getUserPw() {
+		return userPw;
 	}
-	public void setUserNick(String userNick) {
-		this.userNick = userNick;
+	/**
+	 * @param userPw the userPw to set
+	 */
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
 	}
-	public String getUserPwd() {
-		return userPwd;
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
-	public void setUserPwd(String userPwd) {
-		this.userPwd = userPwd;
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getUserGender() {
-		return userGender;
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
 	}
-	public void setUserGender(String userGender) {
-		this.userGender = userGender;
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
 	}
-	public int getUserTall() {
-		return userTall;
-	}
-	public void setUserTall(int userTall) {
-		this.userTall = userTall;
-	}
-	public String getUserProfileImageurl() {
-		return userProfileImageurl;
-	}
-	public void setUserProfileImageurl(String userProfileImageurl) {
-		this.userProfileImageurl = userProfileImageurl;
-	}	
-	public String getUserLink1() {
-		return userLink1;
-	}
-	public void setUserLink1(String userLink1) {
-		this.userLink1 = userLink1;
-	}
-	public String getUserLink2() {
-		return userLink2;
-	}
-	public void setUserLink2(String userLink2) {
-		this.userLink2 = userLink2;
-	}
-	public String getUserLink3() {
-		return userLink3;
-	}
-	public void setUserLink3(String userLink3) {
-		this.userLink3 = userLink3;
-	}
-	public String getUserLink4() {
-		return userLink4;
-	}
-	public void setUserLink4(String userLink4) {
-		this.userLink4 = userLink4;
-	}
-	public String getUserLink5() {
-		return userLink5;
-	}
-	public void setUserLink5(String userLink5) {
-		this.userLink5 = userLink5;
-	}
-	public String getUserIntroduce() {
-		return userIntroduce;
-	}
-	public void setUserIntroduce(String userIntroduce) {
-		this.userIntroduce = userIntroduce;
-	}
-	public String getDeviceId() {
-		return deviceId;
-	}
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
-	}
-	public int getStoreTypeId() {
-		return storeTypeId;
-	}
-	public void setStoreTypeId(int storeTypeId) {
-		this.storeTypeId = storeTypeId;
-	}
-	public String getRegistrationKey() {
-		return registrationKey;
-	}
-	public void setRegistrationKey(String registrationKey) {
-		this.registrationKey = registrationKey;
-	}
-	public String getAppVersion() {
-		return appVersion;
-	}
-	public void setAppVersion(String appVersion) {
-		this.appVersion = appVersion;
-	}
-	public int getDeviceType() {
-		return deviceType;
-	}
-	public void setDeviceType(int deviceType) {
-		this.deviceType = deviceType;
-	}
-	public String getRegDate() {
-		return regDate;
-	}
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
-	}
-	public String getLocate() {
-		return locate;
-	}
-	public void setLocate(String locate) {
-		this.locate = locate;
-	}
-
+	
+	
 
 }
