@@ -116,4 +116,86 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
 
 4. Defining Databases query and its Mapper with mybatis
 
-- Works in directory named mybatis in core
+- With mybatis, there is no need to implement in java
+
+	* Declare required method in interfaces ~Mapper.java.
+
+	* *Implement* detail query in ~Mapper.xml files with (mybatis syntax)[http://www.mybatis.org/mybatis-3/ko/sqlmap-xml.html].
+
+- Example queries
+```xml
+<mapper namespace="core.logic.mybatis.mapper.UserMapper">
+    
+    <select id="getUserInfo" parameterType="String" resultType="UserResult">
+        SELECT 
+        	id
+        	, userId
+        	, userPw
+        	, name
+        	, date
+        FROM
+        	tbl_richware_user
+        WHERE
+        	userId = #{id}
+    </select>
+```
+	* the account information or DB connection settings would be asserted in config.xml.
+
+	* *IMPORTANT* : User-defined Data type or bean must be aliased in config.xml.
+
+- Example code for showing Aliases and db settings
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+    
+    <settings>  
+        <setting name="cacheEnabled"              value="true"/>  
+        <setting name="lazyLoadingEnabled"        value="false"/>  
+        <setting name="multipleResultSetsEnabled" value="true"/>  
+        <setting name="useColumnLabel"            value="true"/>  
+        <setting name="useGeneratedKeys"          value="false"/>  
+        <setting name="defaultExecutorType"       value="SIMPLE"/>  
+    </settings>    
+	
+	<typeAliases>
+		<typeAlias alias="UserBean" type="core.logic.bean.persistence.UserBean"/>
+		<typeAlias alias="UserResult" type="core.logic.bean.result.UserResult"/>
+		<typeAlias alias="BoardBean" type="core.logic.bean.persistence.BoardBean"/>
+		<typeAlias alias="ListBean" type="core.logic.bean.persistence.ListBean"/>
+	</typeAliases>
+	    
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+			    
+				<property name="driver" value="net.sf.log4jdbc.DriverSpy"/>  
+			    <property name="url" value="jdbc:log4jdbc:mysql://182.161.118.74:3306/test?useUnicode=yes&amp;characterEncoding=UTF-8"/>
+			    <property name="username" value="test"/>  
+			    <property name="password" value="$#@!test"/>
+			     
+			</dataSource>
+		</environment>
+	</environments>
+	 
+	<mappers>
+		<mapper resource="core/logic/mybatis/query/UserMapper.xml"/>
+	</mappers>
+	
+</configuration>
+```
+
+5. Getting started for thrift Compiling
+
+- Generating thrift.gen file is integral part for running.
+
+- In your thrift directory, run the command as follow.
+
+```sh
+C:\thrift -out C:\Users\a\workspace\thrift_share\src --gen java:beans C:\Users\a\workspace\thrift\src\tool\thrift\idl\thrift.idl
+C:\thrift -out C:\Users\a\workspace\thrift_share\src\thrift\gen\php  --gen php:oop C:\Users\a\workspace\thrift\src\tool\thrift\idl\thrift.idl
+```

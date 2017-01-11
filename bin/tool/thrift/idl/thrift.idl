@@ -10,11 +10,31 @@ typedef bool boolean
 exception ThriftServiceException { 1 : int ecode, 2 : String emsg }
 
 struct ThriftUserBean{
-1: int id
-2: String userId
-3: String userPw
-4: String name
-5: String date
+1: String userId
+2: String userNick
+3: String userPwd
+4: String userGender
+5: int userTall
+6: String userProfileImageurl
+7: String userIntroduce
+8: String deviceID
+9: int storeTypeID
+10: String registrationKey
+11: String appVersion
+12: int deviceType
+13: String regDate
+14: String locate
+15: String isFollow
+16: int coordiCount
+17: int followCount
+18: int followerCount
+19: String followId
+20: String isLeave
+21: int isNextPage
+22: int totalCount
+23: String timeLineNew
+24: ThriftListBean listBean
+25: int bookMarkCount
  } 
 
 struct ThriftUserResult{
@@ -23,7 +43,7 @@ struct ThriftUserResult{
 3: String userPw
 4: String name
 5: String date
-} 
+ } 
 
 struct ThriftFileBean{
 1: String fileKey
@@ -34,19 +54,19 @@ struct ThriftFileBean{
  } 
 
 struct ThriftListBean{
-1: int id
-2: int uid
-3: String title
-4: String content
-5: String date
- } 
-
-struct ThriftBoardBean{
-1: int id
-2: int uid
-3: String title
-4: String content
-5: String date
+1: String gid
+2: int page
+3: int pageBlock
+4: int rowPerPage
+5: int pagePerBlock
+6: long totalRow
+7: long virtualNum
+8: int totalPage
+9: int totalBlock
+10: int startPage
+11: int endPage
+12: int isPrevBlock
+13: int isNextBlock
  } 
 
 service ThriftService {  
@@ -54,11 +74,12 @@ String duplicateUserId(1:String id) throws (1:ThriftServiceException se)  ;
 list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 ThriftUserResult getUserInfo(1:String id) throws (1:ThriftServiceException se)  ; 
 list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
- }
-
-service ThriftAdminService {
+ } 
+service ThriftAdminService {  
 ThriftUserResult loginUser(1:String userID,2:String userPWD) throws (1:ThriftServiceException se)  ; 
 list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
+void signupUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftServiceException se)  ; 
+void writeBoard(1:int uid,2:String title,3:String content) throws (1:ThriftServiceException se)  ; 
  } 
 

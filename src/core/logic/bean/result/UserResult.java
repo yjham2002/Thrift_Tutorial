@@ -67,7 +67,14 @@ public class UserResult {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserResult [id=" + id + ", userId=" + userId + ", userPw=" + userPw + ", name=" + name + ", date="
+				+ date + "]";
+	}
 	
 
 }

@@ -30,6 +30,16 @@
         	userId = #{id}
     </select>
     
+    <insert id="signupUser" parameterType="hashMap">
+  		insert into tbl_richware_user (userId,userPw,name)
+  		values (#{userId},#{userPw},#{name})
+	</insert>
+	
+	<insert id="writeBoard" parameterType="hashMap">
+  		insert into tbl_richware_board (uid,title,content)
+  		values (#{uid},#{title},#{content})
+	</insert>
+    
     <select id="Login" parameterType="hashMap" resultType="Integer">
         SELECT
         	COUNT(*)

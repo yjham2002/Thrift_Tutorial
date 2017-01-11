@@ -12,6 +12,7 @@ import thrift.gen.javacode.ThriftAdminService;
 import thrift.gen.javacode.ThriftFileBean;
 import thrift.gen.javacode.ThriftServiceException;
 import thrift.gen.javacode.ThriftUserBean;
+import thrift.gen.javacode.ThriftUserResult;
 
 import com.appg.gpack.common.exception.ServiceException;
 import com.appg.thrift.util.ThriftConvertUtil;
@@ -87,12 +88,34 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 		}
 	}
 
+	
+	
 	@Override
-	public ThriftUserBean loginUser(String userID, String userPWD) throws ThriftServiceException, TException {
+	public ThriftUserResult loginUser(String userID, String userPWD) throws ThriftServiceException, TException {
 		try{
-			ThriftUserBean bean = mp.map(serviceEngine.getUserSvc().loginUser(userID, userPWD), ThriftUserBean.class);
-			
+			ThriftUserResult bean = mp.map(serviceEngine.getUserSvc().loginUser(userID, userPWD), ThriftUserResult.class);
+			System.out.println(bean);
 			return bean;
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+	
+	@Override
+	public void signupUser(String userId, String userPw, String name) throws TException {
+		try{
+			serviceEngine.getUserSvc().signupUser(userId, userPw, name);;
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
+	@Override
+	public void writeBoard(int uid, String title, String content) throws TException {
+		try{
+			serviceEngine.getUserSvc().writeBoard(uid, title, content);
 		}
 		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());

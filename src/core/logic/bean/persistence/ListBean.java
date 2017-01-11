@@ -1,25 +1,23 @@
 package core.logic.bean.persistence;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ListBean {
 	
-	private ArrayList<BoardBean> list;
+	private List<BoardBean> lists;
 
 	/**
 	 * @return the list
 	 */
-	public ArrayList<BoardBean> getList() {
-		return list;
+	public List<BoardBean> getList() {
+		return lists;
 	}
 
 	/**
 	 * @param list the list to set
 	 */
-	public void setList(ArrayList<BoardBean> list) {
-		this.list = list;
+	public void setList(List<BoardBean> lists) {
+		this.lists = lists;
 	}
-	
-	
 
 }

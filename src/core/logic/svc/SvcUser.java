@@ -179,6 +179,7 @@ public class SvcUser extends DBSessionManager {
 				logger.info("Login Failed");
 			}else{
 				retBean = mapper.getUserInfo(userID);
+				
 				logger.info("Login Succeeded as [" + retBean.getName() + "]");
 			}
 		}
@@ -193,4 +194,54 @@ public class SvcUser extends DBSessionManager {
 		
 		return retBean;
 	}
+	
+	@ThriftAdminMethod
+	public void signupUser(String userId, String userPw, String name) throws ServiceException{
+		SqlSession session = null;
+		
+		if(Constants.IS_DEBUG) logger.info("Trying to add an account for [" + userId + "/" + userPw + "/" + name + "]");
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			Map<String, String> params = new HashMap<>();
+			params.put("userId", userId);
+			params.put("userPw", userPw);
+			params.put("name", name);
+			
+			mapper.signupUser(params);
+			
+		}catch(ServiceException e){
+			e.printStackTrace();
+			throw new ServiceException(-999, "Insertion failed");
+		}finally{
+			closeSession(session);
+		}
+	}
+	
+	@ThriftAdminMethod
+	public void writeBoard(int uid, String title, String content) throws ServiceException{
+		SqlSession session = null;
+		
+		if(Constants.IS_DEBUG) logger.info("Trying to add an article.");
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			Map<String, String> params = new HashMap<>();
+			params.put("uid", Integer.toString(uid));
+			params.put("title", title);
+			params.put("content", content);
+			
+			mapper.writeBoard(params);
+			
+		}catch(ServiceException e){
+			e.printStackTrace();
+			throw new ServiceException(-991, "Insertion failed");
+		}finally{
+			closeSession(session);
+		}
+	}
+
 }
