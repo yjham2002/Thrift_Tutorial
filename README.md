@@ -14,7 +14,7 @@
 - Java bean for encapsulations
 - PHP as views
 
-1. Defining thrift.idl file
+#### Defining thrift.idl file
 
 - Define the encapsulating structs, methods and exception.
 
@@ -53,7 +53,7 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
 	ThriftUserBean getTest(1:int userNumber) throws (1:ThriftServiceException se)  ; 
 } 
 ```
-2. Compiling with Thrift.exe
+#### Compiling with Thrift.exe
 
 - Run gen.bat to generate interfaces and required files
 
@@ -78,7 +78,7 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
 ```
 - As the code shows, Handlers provide just the data as somewhat routes like controller in *Spring Frameworks*. But the *data type* as well as ThriftUserResult must be declared as a Java bean.
 
-3. Implementing Service
+#### Implementing Service
 
 - There is a directory named svc in core then it is necessary that Implementation needs to be located in here.
 
@@ -114,13 +114,13 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
 	}
 ```
 
-4. Defining Databases query and its Mapper with mybatis
+#### Defining Databases query and its Mapper with mybatis
 
 - With mybatis, there is no need to implement in java
 
 	* Declare required method in interfaces ~Mapper.java.
 
-	* *Implement* detail query in ~Mapper.xml files with (mybatis syntax)[http://www.mybatis.org/mybatis-3/ko/sqlmap-xml.html].
+	* *Implement* detail query in ~Mapper.xml files with [mybatis syntax](http://www.mybatis.org/mybatis-3/ko/sqlmap-xml.html).
 
 - Example queries
 ```xml
@@ -189,7 +189,7 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
 </configuration>
 ```
 
-5. Getting started for thrift Compiling
+#### Getting started for thrift Compiling
 
 - Generating thrift.gen file is integral part for running.
 
