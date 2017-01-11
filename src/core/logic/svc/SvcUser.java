@@ -1,6 +1,8 @@
 package core.logic.svc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +17,7 @@ import core.common.util.FileUpload;
 import core.engine.ServiceEngine;
 import core.engine.ServiceEngineFactory;
 import core.logic.bean.persistence.FileBean;
+import core.logic.bean.persistence.UserBean;
 import core.logic.bean.result.UserResult;
 import core.logic.mybatis.DBSessionManager;
 import core.logic.mybatis.mapper.UserMapper;
@@ -45,9 +48,11 @@ public class SvcUser extends DBSessionManager {
 	 */
 	@ThriftMethod
 	public UserResult getUserInfo(String id) throws ServiceException{
-		String ERR_MSG = "User doesn't exist";
+		
+		final String ERR_MSG = "User doesn't exist";
 		String TAG = "getUserInfo : ";
 		logger.info(TAG + id);
+		
 		SqlSession session = null;
 		UserResult userInfo = null;
 
@@ -144,4 +149,42 @@ public class SvcUser extends DBSessionManager {
 		return resultMsg;
 	}
 	
+	/**
+	 * 유저 로그인
+	 * @param userID
+	 * @param userPWD
+	 * @return
+	 * @throws ServiceException
+	 */
+	@ThriftAdminMethod
+	public UserBean loginUser(String userID, String userPWD) throws ServiceException{
+		UserBean retBean = null;
+		SqlSession session = null;
+		int result = 0;
+		if(Constants.IS_DEBUG) {
+			logger.info("[PARAMETER] userID => " + userID);
+		}
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("userId", userID);
+			params.put("userPw", userPWD);
+			
+			result = mapper.Login(params);
+			
+			if(result < 1)
+				throw new ServiceException(-999, "sdfsdf");
+		}
+		catch(Exception e){
+			throw new ServiceException(-9999, "알수없는에러");
+		}
+		finally{
+			closeSession(session);
+		}
+		
+		return retBean;
+	}
 }

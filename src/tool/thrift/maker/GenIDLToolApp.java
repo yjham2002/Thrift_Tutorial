@@ -71,7 +71,7 @@ public class GenIDLToolApp {
 		
 		ServiceBox box1 = new ServiceBox() ;		
 		box1.setCls(SvcUser.class) ;
-		box1.setPhysicalPaths(GU.getList(thrift_base_path + "\\src\\core\\logic\\svc\\UserSvc.java")) ;				
+		box1.setPhysicalPaths(GU.getList(thrift_base_path + "\\src\\core\\logic\\svc\\SvcUser.java")) ;				
 		
 		bean.addServiceBox(box1) ;		
 							

@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import core.logic.bean.persistence.UserBean;
 import core.logic.bean.result.UserResult;
 import core.logic.svc.SvcUser;
 
@@ -36,17 +37,13 @@ public class UserSvcTestUnit{
 
 	@Test
 	public void testLogin() throws Exception{
+		
 		boolean ret = false;
-		Integer count = 0;
-		String userId = "test@test.com";
-		String userPwd = "test";
-		String deviceID = "";
-		int deviceType = 1;
-		String registrationKey = "";
-		String appVersion = "";
-		UserResult result = new UserResult();
-		//result= svc.Login(userId, userPwd);
-		logger.info("Login Success ==> " + result.getUserNick());
+		
+		String userID = "test";
+		String userPWD = "test";
+		
+		UserBean result = svc.loginUser(userID, userPWD);
 		
 		if(result != null){
 			ret = true;
@@ -74,5 +71,7 @@ public class UserSvcTestUnit{
 		
 		assertTrue(ret);
 	}
+	
+	
 
 }

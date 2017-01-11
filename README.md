@@ -59,3 +59,59 @@ service ThriftAdminService { // Handler Method Interfaces for Admin Service
     * The files that automatically generated are not necessary to check out.
     * In directory named server, there are 2 handlers and it is for processing client's requests and providing responses.
 
+- Example code snippet in ThriftServiceHandler.java
+```java
+	@Override
+	public ThriftUserResult getUserInfo(String id) throws ThriftServiceException, TException{
+		
+		ThriftUserResult result = null;
+		try{
+			result = mp.map(serviceEngine.getUserSvc().getUserInfo(id), ThriftUserResult.class);
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+		return result;
+	}
+```
+- As the code shows, Handlers provide just the data as somewhat routes like controller in *Spring Frameworks*. But the *data type* as well as ThriftUserResult must be declared as a Java bean.
+
+3. Implementing Service
+
+- There is a directory named svc in core then it is necessary that Implementation needs to be located in here.
+
+- The Implementing code in svc file must be named exactly the same with method name in *Handler* and *thrift.idl* file. In addition, the detail business logics also need to be implemented in here.
+
+- Example code snippet in SvcUser.java
+```java
+@ThriftMethod
+	public UserResult getUserInfo(String id) throws ServiceException{
+		
+		final String ERR_MSG = "User doesn't exist";
+		String TAG = "getUserInfo : ";
+		logger.info(TAG + id);
+		
+		SqlSession session = null;
+		UserResult userInfo = null;
+
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			userInfo = mapper.getUserInfo(id);
+			if(userInfo == null){
+				throw new ServiceException(-1, ERR_MSG);
+			}
+		}
+		catch (ServiceException e){
+			throw new ServiceException(-1, ERR_MSG);
+		}
+		finally{
+			closeSession(session);
+		}
+		return userInfo;
+	}
+```
+
+4. Defining Databases query and its Mapper with mybatis
+
+- Works in directory named mybatis in core

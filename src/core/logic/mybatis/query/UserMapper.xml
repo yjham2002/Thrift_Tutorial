@@ -23,7 +23,7 @@
         FROM
         	tbl_richware_user
         WHERE 
-        	userId = #{userId} AND userPwd = #{userPw}
+        	userId = #{userId} AND userPw = #{userPw}
     </select>
     
     <!-- userId 중복 체크 -->

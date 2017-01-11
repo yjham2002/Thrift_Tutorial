@@ -19,6 +19,7 @@ import com.appg.thrift.util.ThriftConvertUtil;
 import core.engine.ServiceEngine;
 import core.engine.ServiceEngineFactory;
 import core.logic.bean.persistence.FileBean;
+import core.logic.bean.persistence.UserBean;
 
 public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	
@@ -87,9 +88,15 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	}
 
 	@Override
-	public ThriftUserBean getTest(int userNumber) throws ThriftServiceException, TException {
-		// TODO Auto-generated method stub
-		return null;
+	public ThriftUserBean loginUser(String userID, String userPWD) throws ThriftServiceException, TException {
+		try{
+			ThriftUserBean bean = mp.map(serviceEngine.getUserSvc().loginUser(userID, userPWD), ThriftUserBean.class);
+			
+			return bean;
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
 	}
 
 }

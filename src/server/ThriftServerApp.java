@@ -18,7 +18,7 @@ public class ThriftServerApp{
 				public void run(){				
 					IServer server = null ;
 					try{
-						server = factory.getServer(port, "Richware Board Started at" + port);
+						server = factory.getServer(port, "Richware Board Started at " + port);
 					} catch (ServiceException e){
 						e.printStackTrace();
 					}
@@ -36,7 +36,7 @@ public class ThriftServerApp{
 					} catch (ServiceException e){
 						e.printStackTrace();
 					}
-					server.start() ;										
+					server.start();
 				}
 			}) ;
 			
