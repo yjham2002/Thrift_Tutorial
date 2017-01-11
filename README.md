@@ -4,7 +4,7 @@
 
 ### *Integral Part* of this project is [on Github](https://github.com/yjham2002/Thrift_tutorial_PHP)
 
-- This cause reason why this project provides multi-language.
+- The project Link above provides reason why this project provides multi-language.
 
 ##### This Project runs with
 - Thrift as a multiplexer
