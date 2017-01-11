@@ -1,6 +1,15 @@
 package core.logic.bean.persistence;
 
 public class BoardBean {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BoardBean [id=" + id + ", uid=" + uid + ", title=" + title + ", content=" + content + ", date=" + date
+				+ "]";
+	}
+	
 	private int id;
 	private int uid;
 	private String title;

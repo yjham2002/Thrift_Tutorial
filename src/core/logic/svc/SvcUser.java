@@ -16,8 +16,8 @@ import core.common.constants.Constants;
 import core.common.util.FileUpload;
 import core.engine.ServiceEngine;
 import core.engine.ServiceEngineFactory;
+import core.logic.bean.persistence.BoardBean;
 import core.logic.bean.persistence.FileBean;
-import core.logic.bean.persistence.UserBean;
 import core.logic.bean.result.UserResult;
 import core.logic.mybatis.DBSessionManager;
 import core.logic.mybatis.mapper.UserMapper;
@@ -194,6 +194,31 @@ public class SvcUser extends DBSessionManager {
 		
 		return retBean;
 	}
+
+	@ThriftAdminMethod
+	public BoardBean getBoardDetail(int id) throws ServiceException{
+		BoardBean retBean = null;
+		SqlSession session = null;
+		int result = 0;
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			retBean = mapper.getBoardDetail(id);
+		}
+		
+		catch(Exception e){
+			e.printStackTrace();
+			throw new ServiceException(-9999, "알수없는에러");
+		}
+		finally{
+			closeSession(session);
+		}
+		
+		return retBean;
+	}
+
 	
 	@ThriftAdminMethod
 	public void signupUser(String userId, String userPw, String name) throws ServiceException{
@@ -210,11 +235,58 @@ public class SvcUser extends DBSessionManager {
 			params.put("userPw", userPw);
 			params.put("name", name);
 			
-			mapper.signupUser(params);
+			if(mapper.duplicateUserId(userId) == 0) mapper.signupUser(params);
+			else{
+				throw new ServiceException(-999, "This id is redundant");
+			}
 			
 		}catch(ServiceException e){
 			e.printStackTrace();
 			throw new ServiceException(-999, "Insertion failed");
+		}finally{
+			closeSession(session);
+		}
+	}
+	
+	@ThriftAdminMethod
+	public List<BoardBean> getBoardAll() throws ServiceException{
+		SqlSession session = null;
+		
+		if(Constants.IS_DEBUG) logger.info("Trying to retrieving board list");
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			List<BoardBean> lists = mapper.getBoardList();
+			
+			return lists;
+		}catch(ServiceException e){
+			e.printStackTrace();
+			throw new ServiceException(-999, "Insertion failed");
+		}finally{
+			closeSession(session);
+		}
+	}
+	
+	@ThriftAdminMethod
+	public void updateUser(String userId, String userPw, String name) throws ServiceException{
+		SqlSession session = null;
+		
+		if(Constants.IS_DEBUG) logger.info("Trying to update an account.");
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			Map<String, String> params = new HashMap<>();
+			params.put("userId", userId);
+			params.put("userPw", userPw);
+			params.put("name", name);
+			
+			mapper.modifyUser(params);
+			
+		}catch(ServiceException e){
+			e.printStackTrace();
+			throw new ServiceException(-991, "Updating failed");
 		}finally{
 			closeSession(session);
 		}

@@ -53,21 +53,17 @@ struct ThriftFileBean{
 5: String filePath
  } 
 
+struct ThriftBoardBean{
+1: int id
+2: int uid
+3: String title
+4: String content
+5: String date
+}
+
 struct ThriftListBean{
-1: String gid
-2: int page
-3: int pageBlock
-4: int rowPerPage
-5: int pagePerBlock
-6: long totalRow
-7: long virtualNum
-8: int totalPage
-9: int totalBlock
-10: int startPage
-11: int endPage
-12: int isPrevBlock
-13: int isNextBlock
- } 
+1: list<ThriftBoardBean> lists
+} 
 
 service ThriftService {  
 String duplicateUserId(1:String id) throws (1:ThriftServiceException se)  ; 
@@ -80,6 +76,8 @@ ThriftUserResult loginUser(1:String userID,2:String userPWD) throws (1:ThriftSer
 list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 void signupUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftServiceException se)  ; 
-void writeBoard(1:int uid,2:String title,3:String content) throws (1:ThriftServiceException se)  ; 
+void writeBoard(1:int uid,2:String title,3:String content) throws (1:ThriftServiceException se)  ;
+void updateUser(1:String userId, 2:String userPw, 3:String name);
+list<ThriftBoardBean> getBoardAll() throws (1:ThriftServiceException se)  ;
  } 
 

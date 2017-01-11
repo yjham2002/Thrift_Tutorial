@@ -17,18 +17,38 @@
         	userId = #{id}
     </select>
     
-    <select id="getBoardList" parameterType="String" resultType="UserResult">
+    <select id="getBoardDetail" parameterType="int" resultType="hashMap">
         SELECT 
         	id
-        	, userId
-        	, userPw
-        	, name
+        	, uid
+        	, title
         	, date
         FROM
-        	tbl_richware_user
+        	tbl_richware_board
         WHERE
-        	userId = #{id}
+        	id = #{id}
     </select>
+    
+    <select id="getBoardList" resultType="hashMap">
+        SELECT 
+        	id
+        	, uid
+        	, title
+        	, date
+        FROM
+        	tbl_richware_board
+        ORDER BY
+        	id desc
+    </select>
+    
+    <update id="modifyUser" parameterType="hashMap">
+    	UPDATE
+    		tbl_richware_user
+		SET
+			userPw = #{userPw}, name = #{name}
+		WHERE
+			userId = #{userId};
+    </update>
     
     <insert id="signupUser" parameterType="hashMap">
   		insert into tbl_richware_user (userId,userPw,name)

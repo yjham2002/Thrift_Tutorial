@@ -4,23 +4,21 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import ma.glasnost.orika.MapperFacade;
-
 import org.apache.thrift.TException;
-
-import thrift.gen.javacode.ThriftAdminService;
-import thrift.gen.javacode.ThriftFileBean;
-import thrift.gen.javacode.ThriftServiceException;
-import thrift.gen.javacode.ThriftUserBean;
-import thrift.gen.javacode.ThriftUserResult;
 
 import com.appg.gpack.common.exception.ServiceException;
 import com.appg.thrift.util.ThriftConvertUtil;
 
 import core.engine.ServiceEngine;
 import core.engine.ServiceEngineFactory;
+import core.logic.bean.persistence.BoardBean;
 import core.logic.bean.persistence.FileBean;
-import core.logic.bean.persistence.UserBean;
+import ma.glasnost.orika.MapperFacade;
+import thrift.gen.javacode.ThriftAdminService;
+import thrift.gen.javacode.ThriftBoardBean;
+import thrift.gen.javacode.ThriftFileBean;
+import thrift.gen.javacode.ThriftServiceException;
+import thrift.gen.javacode.ThriftUserResult;
 
 public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	
@@ -105,7 +103,7 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	@Override
 	public void signupUser(String userId, String userPw, String name) throws TException {
 		try{
-			serviceEngine.getUserSvc().signupUser(userId, userPw, name);;
+			serviceEngine.getUserSvc().signupUser(userId, userPw, name);
 		}
 		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
@@ -116,6 +114,29 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	public void writeBoard(int uid, String title, String content) throws TException {
 		try{
 			serviceEngine.getUserSvc().writeBoard(uid, title, content);
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
+	@Override
+	public List<ThriftBoardBean> getBoardAll() throws TException {
+		List<BoardBean> lists = null;
+		List<ThriftBoardBean> ret = null;
+		try{
+			lists = serviceEngine.getUserSvc().getBoardAll();
+			ret = ThriftConvertUtil.convert(ThriftBoardBean.class, mp, lists);
+			return ret;
+		}catch(ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
+	@Override
+	public void updateUser(String userId, String userPw, String name) throws TException {
+		try{
+			serviceEngine.getUserSvc().updateUser(userId, userPw, name);
 		}
 		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
