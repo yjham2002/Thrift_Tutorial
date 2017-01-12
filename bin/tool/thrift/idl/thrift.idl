@@ -79,5 +79,6 @@ void signupUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftS
 void writeBoard(1:int uid,2:String title,3:String content) throws (1:ThriftServiceException se)  ;
 void updateUser(1:String userId, 2:String userPw, 3:String name);
 list<ThriftBoardBean> getBoardAll() throws (1:ThriftServiceException se)  ;
+ThriftBoardBean getBoardDetail(1:int id) throws (1:ThriftServiceException se)  ;
  } 
 

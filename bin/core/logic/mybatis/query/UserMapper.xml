@@ -17,11 +17,12 @@
         	userId = #{id}
     </select>
     
-    <select id="getBoardDetail" parameterType="int" resultType="hashMap">
+    <select id="getBoardDetail" parameterType="int" resultType="BoardBean">
         SELECT 
         	id
         	, uid
         	, title
+        	, content
         	, date
         FROM
         	tbl_richware_board
@@ -29,11 +30,12 @@
         	id = #{id}
     </select>
     
-    <select id="getBoardList" resultType="hashMap">
+    <select id="getBoardList" resultType="BoardBean">
         SELECT 
         	id
         	, uid
         	, title
+        	, content
         	, date
         FROM
         	tbl_richware_board

@@ -37,15 +37,18 @@ public class UserSvcTestUnit{
 
 		assertTrue(ret);
 	}
-	/*
+	
 	@Test
 	public void testBoardList(){
 		boolean ret = false;
 		List<BoardBean> lists;
 		try {
 			lists = svc.getBoardAll();
-			System.out.println("content size : " + lists.size());
-			//for(BoardBean unit : lists) logger.info(unit);
+			System.out.println("content size : " + lists.get(5).toString());
+			for(int i = 0; i < 5; i++){
+				logger.info("-");
+				logger.info("content : " + lists.get(i));
+			}
 			
 			ret = !(lists.size() < 1);
 		} catch (ServiceException e) {
@@ -56,14 +59,14 @@ public class UserSvcTestUnit{
 		
 		assertTrue(ret);
 	}
-	*/
+	
 	
 	@Test
-	public void testBoardList() throws Exception{
+	public void testBoardDetail() throws Exception{
 		boolean ret = false;
 		BoardBean lists;
-		lists = svc.getBoardDetail(2);
-		System.out.println("content size : " + lists.getContent());
+		lists = svc.getBoardDetail(10);
+		System.out.println("id : " + lists.getTitle());
 		
 	}
 	

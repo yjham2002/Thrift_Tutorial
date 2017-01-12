@@ -218,7 +218,6 @@ public class SvcUser extends DBSessionManager {
 		
 		return retBean;
 	}
-
 	
 	@ThriftAdminMethod
 	public void signupUser(String userId, String userPw, String name) throws ServiceException{

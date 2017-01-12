@@ -143,4 +143,16 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 		}
 	}
 
+	@Override
+	public ThriftBoardBean getBoardDetail(int id) throws ThriftServiceException, TException {
+		try{
+			ThriftBoardBean bean = mp.map(serviceEngine.getUserSvc().getBoardDetail(id), ThriftBoardBean.class);
+			System.out.println(bean);
+			return bean;
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
 }
