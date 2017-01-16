@@ -149,6 +149,29 @@ public class SvcUser extends DBSessionManager {
 		return resultMsg;
 	}
 	
+	@ThriftAdminMethod
+	public void toggleLike(int bid, int uid) throws ServiceException{
+		SqlSession session = null;
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			Map<String, Object> params = new HashMap<>();
+			params.put("bid", Integer.toString(bid));
+			params.put("uid", Integer.toString(uid));
+			if(mapper.isLike(uid) > 0) mapper.removeLike(params);
+			else mapper.addLike(params);
+		}
+		
+		catch(Exception e){
+			e.printStackTrace();
+			throw new ServiceException(-9999, "알수없는에러");
+		}
+		finally{
+			closeSession(session);
+		}
+	}
+	
 	/**
 	 * 유저 로그인
 	 * @param userID
@@ -218,6 +241,28 @@ public class SvcUser extends DBSessionManager {
 		}
 		
 		return retBean;
+	}
+	
+	@ThriftAdminMethod
+	public int isLike(int id) throws ServiceException{
+		int ret = 0;
+		SqlSession session = null;
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			ret = mapper.isLike(id);
+		}
+		
+		catch(Exception e){
+			e.printStackTrace();
+			throw new ServiceException(-9999, "알수없는에러");
+		}
+		finally{
+			closeSession(session);
+		}
+		
+		return ret;
 	}
 	
 	@ThriftAdminMethod

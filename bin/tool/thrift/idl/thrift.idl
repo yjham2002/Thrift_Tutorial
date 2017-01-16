@@ -25,6 +25,7 @@ struct ThriftBoardBean{
 5: String date
 6: String userName
 7: ThriftFileBean file
+8: int likes
  } 
 
 struct ThriftUserBean{
@@ -90,10 +91,12 @@ service ThriftAdminService {
 ThriftUserResult loginUser(1:String userID,2:String userPWD) throws (1:ThriftServiceException se)  ; 
 list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 void updateUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftServiceException se)  ; 
-list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 void signupUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftServiceException se)  ; 
-list<ThriftBoardBean> getBoardAll() throws (1:ThriftServiceException se)  ; 
-void writeBoard(1:int uid,2:String title,3:String content,4:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
+list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 ThriftBoardBean getBoardDetail(1:int id) throws (1:ThriftServiceException se)  ; 
+void writeBoard(1:int uid,2:String title,3:String content,4:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
+list<ThriftBoardBean> getBoardAll() throws (1:ThriftServiceException se)  ; 
+void toggleLike(1:int bid, 2:int uid) throws (1:ThriftServiceException se)  ;
+int isLike(1:int id) throws (1:ThriftServiceException se)  ;
  } 
 

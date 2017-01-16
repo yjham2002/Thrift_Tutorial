@@ -168,4 +168,24 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 		}
 	}
 
+	@Override
+	public int isLike(int id) throws ThriftServiceException, TException {
+		try{
+			return serviceEngine.getUserSvc().isLike(id);
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
+	@Override
+	public void toggleLike(int bid, int uid) throws ThriftServiceException, TException {
+		try{
+			serviceEngine.getUserSvc().toggleLike(bid, uid);
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
 }

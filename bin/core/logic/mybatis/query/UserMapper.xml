@@ -17,6 +17,15 @@
         	userId = #{id}
     </select>
     
+    <insert id="addLike" parameterType="hashMap">
+  		insert into tbl_richware_like (bid, uid)
+  		values (#{bid},#{uid})
+	</insert>
+	
+	<delete id="removeLike" parameterType="hashMap">
+  		delete from tbl_richware_like where bid=#{bid} AND uid=#{uid}
+	</delete>
+    
     <select id="getBoardDetail" parameterType="int" resultMap="getBoardMap">
         SELECT 
         	id
@@ -25,6 +34,7 @@
         	, content
         	, date
         	, (SELECT NAME FROM tbl_richware_user WHERE id=`tbl_richware_board`.uid) AS userName
+        	, (SELECT count(*) FROM tbl_richware_like WHERE bid=`tbl_richware_board`.id) AS likes
         FROM
         	tbl_richware_board
         WHERE
@@ -86,6 +96,15 @@
         	tbl_richware_user
         WHERE 
         	userId = #{userId} AND userPw = #{userPw}
+    </select>
+    
+    <select id = "isLike" parameterType="Integer" resultType="Integer">
+        SELECT
+        	COUNT(*)
+        FROM
+        	tbl_richware_like
+        WHERE
+        	uid = #{id}
     </select>
     
     <!-- userId 중복 체크 -->

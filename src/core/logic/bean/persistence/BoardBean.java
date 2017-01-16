@@ -16,7 +16,7 @@ public class BoardBean {
 	@Override
 	public String toString() {
 		return "BoardBean [id=" + id + ", uid=" + uid + ", title=" + title + ", content=" + content + ", date=" + date
-				+ ", userName=" + userName + ", file=" + file + "]";
+				+ ", userName=" + userName + ", file=" + file + ", likes=" + likes + "]";
 	}
 	private int uid;
 	private String title;
@@ -24,9 +24,22 @@ public class BoardBean {
 	private String date;
 	private String userName;
 	private FileBean file;
+	private int likes;
 	
 
 
+	/**
+	 * @return the likes
+	 */
+	public int getLikes() {
+		return likes;
+	}
+	/**
+	 * @param likes the likes to set
+	 */
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
 	/**
 	 * @return the file
 	 */
