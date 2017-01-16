@@ -134,19 +134,6 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	}
 
 	@Override
-	public List<ThriftBoardBean> getBoardAll() throws TException {
-		List<BoardBean> lists = null;
-		List<ThriftBoardBean> ret = null;
-		try{
-			lists = serviceEngine.getUserSvc().getBoardAll();
-			ret = ThriftConvertUtil.convert(ThriftBoardBean.class, mp, lists);
-			return ret;
-		}catch(ServiceException e){
-			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
-		}
-	}
-
-	@Override
 	public void updateUser(String userId, String userPw, String name) throws TException {
 		try{
 			serviceEngine.getUserSvc().updateUser(userId, userPw, name);
@@ -182,6 +169,29 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	public void toggleLike(int bid, int uid) throws ThriftServiceException, TException {
 		try{
 			serviceEngine.getUserSvc().toggleLike(bid, uid);
+		}
+		catch (ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
+	@Override
+	public List<ThriftBoardBean> getBoardAll(int pageNum, int count) throws ThriftServiceException, TException {
+		List<BoardBean> lists = null;
+		List<ThriftBoardBean> ret = null;
+		try{
+			lists = serviceEngine.getUserSvc().getBoardAll(pageNum, count);
+			ret = ThriftConvertUtil.convert(ThriftBoardBean.class, mp, lists);
+			return ret;
+		}catch(ServiceException e){
+			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
+		}
+	}
+
+	@Override
+	public int countPage() throws ThriftServiceException, TException {
+		try{
+			return serviceEngine.getUserSvc().countPage();
 		}
 		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());

@@ -266,6 +266,26 @@ public class SvcUser extends DBSessionManager {
 	}
 	
 	@ThriftAdminMethod
+	public int countPage() throws ServiceException{
+		int ret = 0;
+		SqlSession session = null;
+		
+		try{
+			session = this.getSession();
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			return ret = mapper.countPage();
+		}
+		
+		catch(Exception e){
+			e.printStackTrace();
+			throw new ServiceException(-9999, "알수없는에러");
+		}
+		finally{
+			closeSession(session);
+		}
+	}
+	
+	@ThriftAdminMethod
 	public void signupUser(String userId, String userPw, String name) throws ServiceException{
 		SqlSession session = null;
 		
@@ -294,7 +314,7 @@ public class SvcUser extends DBSessionManager {
 	}
 	
 	@ThriftAdminMethod
-	public List<BoardBean> getBoardAll() throws ServiceException{
+	public List<BoardBean> getBoardAll(int pageNum, int count) throws ServiceException{
 		SqlSession session = null;
 		
 		if(Constants.IS_DEBUG) logger.info("Trying to retrieving board list");
@@ -302,7 +322,14 @@ public class SvcUser extends DBSessionManager {
 		try{
 			session = this.getSession();
 			UserMapper mapper = session.getMapper(UserMapper.class);
-			List<BoardBean> lists = mapper.getBoardList();
+			Map<String, Integer> params = new HashMap<>();
+			if(pageNum <= 0){
+				logger.info("pageNum : " + pageNum);
+				pageNum = 1;
+			}
+			params.put("start", (pageNum - 1) * count);
+			params.put("count", count);
+			List<BoardBean> lists = mapper.getBoardList(params);
 			
 			return lists;
 		}catch(ServiceException e){

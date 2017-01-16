@@ -43,7 +43,7 @@ public class UserSvcTestUnit{
 		boolean ret = false;
 		List<BoardBean> lists;
 		try {
-			lists = svc.getBoardAll();
+			lists = svc.getBoardAll(0, 0);
 			System.out.println("content size : " + lists.get(5).toString());
 			for(int i = 0; i < 5; i++){
 				logger.info("-");

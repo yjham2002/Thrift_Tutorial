@@ -41,6 +41,10 @@
         	id = #{id}
     </select>
     
+    <select id = "countPage" resultType = "Integer">
+    	SELECT count(*) FROM tbl_richware_board
+    </select>
+    
     <select id = "getBoardFile" resultType = "FileBean">
     	SELECT * FROM tbl_richware_file WHERE bid=#{id} LIMIT 1
     </select>
@@ -50,7 +54,7 @@
 		<collection property="file" column="{id=id}" javaType="FileBean" select="getBoardFile"></collection>
     </resultMap>
     
-    <select id="getBoardList" resultType="BoardBean">
+    <select id="getBoardList" parameterType="hashMap" resultType="BoardBean">
         SELECT 
         	id
         	, uid
@@ -63,6 +67,8 @@
         	tbl_richware_board
         ORDER BY
         	id desc
+        LIMIT
+        	#{start}, #{count}
     </select>
     
     <update id="modifyUser" parameterType="hashMap">

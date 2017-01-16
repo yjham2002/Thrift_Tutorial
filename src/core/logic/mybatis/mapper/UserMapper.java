@@ -18,8 +18,9 @@ public interface UserMapper{
 	public Integer duplicateUserId(@Param("userId") String userId);
 	public void modifyUser(Map<String, String> params);
 	public int isLeave(String userId);
-	public List<BoardBean> getBoardList();
+	public List<BoardBean> getBoardList(Map<String, Integer> params);
 	public BoardBean getBoardDetail(@Param("id") int id);
 	public void indexingFile(Map<String, String> params);
 	public int isLike(@Param("id") int id);
+	public int countPage();
 }
