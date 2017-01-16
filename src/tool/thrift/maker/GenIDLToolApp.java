@@ -61,10 +61,10 @@ public class GenIDLToolApp {
 		//bean.setlStruct(fac.getBeans()) ; 
 		
 		List<BeanBox> beanBoxs = new ArrayList<BeanBox>();
+		beanBoxs.add(new BeanBox(FileBean.class));
 		beanBoxs.add(new BeanBox(BoardBean.class));
 		beanBoxs.add(new BeanBox(UserBean.class));
 		beanBoxs.add(new BeanBox(UserResult.class));
-		beanBoxs.add(new BeanBox(FileBean.class));
 		beanBoxs.add(new BeanBox(ListBean.class));
 		
 		

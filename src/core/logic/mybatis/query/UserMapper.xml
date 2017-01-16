@@ -17,7 +17,7 @@
         	userId = #{id}
     </select>
     
-    <select id="getBoardDetail" parameterType="int" resultType="BoardBean">
+    <select id="getBoardDetail" parameterType="int" resultMap="getBoardMap">
         SELECT 
         	id
         	, uid
@@ -31,6 +31,15 @@
         	id = #{id}
     </select>
     
+    <select id = "getBoardFile" resultType = "FileBean">
+    	SELECT * FROM tbl_richware_file WHERE bid=#{id} LIMIT 1
+    </select>
+    
+    <resultMap id = "getBoardMap" type="BoardBean">
+    	<id column="id" javaType="int" property="id" /> 
+		<collection property="file" column="{id=id}" javaType="FileBean" select="getBoardFile"></collection>
+    </resultMap>
+    
     <select id="getBoardList" resultType="BoardBean">
         SELECT 
         	id
@@ -39,6 +48,7 @@
         	, content
         	, date
         	, (SELECT NAME FROM tbl_richware_user WHERE id=`tbl_richware_board`.uid) AS userName
+        	-- , (SELECT * FROM tbl_richware_file WHERE bid=`tbl_richware_board`.id LIMIT 1)
         FROM
         	tbl_richware_board
         ORDER BY
@@ -64,6 +74,10 @@
   		values (#{uid},#{title},#{content})
 	</insert>
 	
+	<insert id="indexingFile" parameterType="hashMap" useGeneratedKeys="true" keyProperty="id">
+  		insert into tbl_richware_file (bid,name,ext,filePath)
+  		values (#{bid},#{name},#{ext},#{filePath})
+	</insert>
     
     <select id="Login" parameterType="hashMap" resultType="Integer">
         SELECT

@@ -1,22 +1,44 @@
 package core.logic.bean.persistence;
 
+import java.util.List;
+
 public class BoardBean {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+
+	
+	
+	private int id;
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "BoardBean [id=" + id + ", uid=" + uid + ", title=" + title + ", content=" + content + ", date=" + date
-				+ ", userName=" + userName + "]";
+				+ ", userName=" + userName + ", file=" + file + "]";
 	}
-	
-	private int id;
 	private int uid;
 	private String title;
 	private String content;
 	private String date;
 	private String userName;
+	private FileBean file;
 	
+
+
+	/**
+	 * @return the file
+	 */
+	public FileBean getFile() {
+		return file;
+	}
+	/**
+	 * @param file the file to set
+	 */
+	public void setFile(FileBean file) {
+		this.file = file;
+	}
 	/**
 	 * @return the userName
 	 */

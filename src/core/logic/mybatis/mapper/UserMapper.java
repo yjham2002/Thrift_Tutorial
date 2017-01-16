@@ -18,4 +18,5 @@ public interface UserMapper{
 	public int isLeave(String userId);
 	public List<BoardBean> getBoardList();
 	public BoardBean getBoardDetail(@Param("id") int id);
+	public void indexingFile(Map<String, String> params);
 }

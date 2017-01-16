@@ -9,6 +9,14 @@ typedef bool boolean
 
 exception ThriftServiceException { 1 : int ecode, 2 : String emsg }
 
+struct ThriftFileBean{
+1: String fileKey
+2: String fileName
+3: String extension
+4: ThriftByteBuffer file
+5: String filePath
+ } 
+
 struct ThriftBoardBean{
 1: int id
 2: int uid
@@ -16,6 +24,7 @@ struct ThriftBoardBean{
 4: String content
 5: String date
 6: String userName
+7: ThriftFileBean file
  } 
 
 struct ThriftUserBean{
@@ -55,14 +64,6 @@ struct ThriftUserResult{
 5: String date
  } 
 
-struct ThriftFileBean{
-1: String fileKey
-2: String fileName
-3: String extension
-4: ThriftByteBuffer file
-5: String filePath
- } 
-
 struct ThriftListBean{
 1: String gid
 2: int page
@@ -91,8 +92,8 @@ list<ThriftFileBean> imgFileUpload(1:list<ThriftFileBean> fileBeans) throws (1:T
 void updateUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftServiceException se)  ; 
 list<ThriftFileBean> fileUpload(1:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 void signupUser(1:String userId,2:String userPw,3:String name) throws (1:ThriftServiceException se)  ; 
-void writeBoard(1:int uid,2:String title,3:String content,4:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 list<ThriftBoardBean> getBoardAll() throws (1:ThriftServiceException se)  ; 
+void writeBoard(1:int uid,2:String title,3:String content,4:list<ThriftFileBean> fileBeans) throws (1:ThriftServiceException se)  ; 
 ThriftBoardBean getBoardDetail(1:int id) throws (1:ThriftServiceException se)  ; 
  } 
 

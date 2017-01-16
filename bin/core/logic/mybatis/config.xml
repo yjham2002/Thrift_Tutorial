@@ -17,6 +17,7 @@
 	<typeAliases>
 		<typeAlias alias="UserBean" type="core.logic.bean.persistence.UserBean"/>
 		<typeAlias alias="UserResult" type="core.logic.bean.result.UserResult"/>
+		<typeAlias alias="FileBean" type="core.logic.bean.persistence.FileBean"/>
 		<typeAlias alias="BoardBean" type="core.logic.bean.persistence.BoardBean"/>
 		<typeAlias alias="ListBean" type="core.logic.bean.persistence.ListBean"/>
 	</typeAliases>

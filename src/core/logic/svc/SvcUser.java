@@ -205,6 +205,8 @@ public class SvcUser extends DBSessionManager {
 			UserMapper mapper = session.getMapper(UserMapper.class);
 			
 			retBean = mapper.getBoardDetail(id);
+			
+			logger.info(retBean);
 		}
 		
 		catch(Exception e){
@@ -301,8 +303,7 @@ public class SvcUser extends DBSessionManager {
 			
 			FileUpload fu = new FileUpload();
 			
-			fileList = fu.imgFileUpload(fileBeans, Constants.UPLOAD_IMAGE_SIZE);
-
+			fileList = fu.fileUpload(fileBeans);
 			
 			Map<String, Object> params = new HashMap<>();
 			params.put("uid", Integer.toString(uid));
@@ -311,7 +312,14 @@ public class SvcUser extends DBSessionManager {
 			
 			mapper.writeBoard(params);
 			
-			params.put("fileList", fileList);
+			for(FileBean fb : fileList){
+				Map<String, String> param2 = new HashMap<>();
+				param2.put("bid", Long.toString((long) params.get("id")));
+				param2.put("name", fb.getFileName());
+				param2.put("ext", fb.getExtension());
+				param2.put("filePath", fb.getFilePath());
+				mapper.indexingFile(param2);
+			}
 			
 		}catch(ServiceException e){
 			e.printStackTrace();

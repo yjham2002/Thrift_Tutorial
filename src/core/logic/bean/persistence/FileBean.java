@@ -66,4 +66,14 @@ public class FileBean
 		this.filePath = filePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "FileBean [fileKey=" + fileKey + ", fileName=" + fileName + ", extension=" + extension + ", file=" + file
+				+ ", filePath=" + filePath + "]";
+	}
+
+	
 }
