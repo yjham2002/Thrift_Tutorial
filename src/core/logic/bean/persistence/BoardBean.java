@@ -7,7 +7,7 @@ public class BoardBean {
 	@Override
 	public String toString() {
 		return "BoardBean [id=" + id + ", uid=" + uid + ", title=" + title + ", content=" + content + ", date=" + date
-				+ "]";
+				+ ", userName=" + userName + "]";
 	}
 	
 	private int id;
@@ -15,7 +15,20 @@ public class BoardBean {
 	private String title;
 	private String content;
 	private String date;
+	private String userName;
 	
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	/**
 	 * @return the id
 	 */

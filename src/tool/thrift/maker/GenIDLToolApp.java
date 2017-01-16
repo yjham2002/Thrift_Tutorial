@@ -12,6 +12,7 @@ import com.appg.thrift.tool.ThriftIDLGenerator2;
 import com.appg.thrift.tool.bean.ServiceBox;
 import com.appg.thrift.tool.bean.ThriftIDLBean2;
 
+import core.logic.bean.persistence.BoardBean;
 import core.logic.bean.persistence.FileBean;
 import core.logic.bean.persistence.UserBean;
 import core.logic.bean.result.UserResult;
@@ -60,6 +61,7 @@ public class GenIDLToolApp {
 		//bean.setlStruct(fac.getBeans()) ; 
 		
 		List<BeanBox> beanBoxs = new ArrayList<BeanBox>();
+		beanBoxs.add(new BeanBox(BoardBean.class));
 		beanBoxs.add(new BeanBox(UserBean.class));
 		beanBoxs.add(new BeanBox(UserResult.class));
 		beanBoxs.add(new BeanBox(FileBean.class));

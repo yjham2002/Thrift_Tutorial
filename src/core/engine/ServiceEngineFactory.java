@@ -13,6 +13,7 @@ import org.apache.thrift.TMultiplexedProcessor;
 import server.ThriftAdminServiceHandler;
 import server.ThriftServiceHandler;
 import thrift.gen.javacode.ThriftAdminService;
+import thrift.gen.javacode.ThriftBoardBean;
 import thrift.gen.javacode.ThriftListBean;
 import thrift.gen.javacode.ThriftService;
 import thrift.gen.javacode.ThriftUserBean;
@@ -29,6 +30,7 @@ import com.appg.gpack.server.thrift.MultiNonBlockWithGGOMCallbackThriftServer;
 import com.appg.gpack.svc.factory.AbstractMapperFacedeFactory;
 import com.appg.gpack.svc.factory.AbstractServiceEngineFactory2;
 
+import core.logic.bean.persistence.BoardBean;
 import core.logic.bean.persistence.UserBean;
 import core.logic.bean.result.UserResult;
 import core.logic.svc.SvcUser;
@@ -79,9 +81,11 @@ public class ServiceEngineFactory extends AbstractServiceEngineFactory2<ServiceE
 				converterFactory.registerConverter(new DateToStringConverter()) ;
 				
 				// entity 추가
+				mf.registerClassMap(mf.classMap(ThriftBoardBean.class, BoardBean.class).byDefault().toClassMap());
 				mf.registerClassMap(mf.classMap(ThriftUserBean.class, UserBean.class).byDefault().toClassMap());
 				mf.registerClassMap(mf.classMap(ThriftUserResult.class, UserResult.class).byDefault().toClassMap());
 				mf.registerClassMap(mf.classMap(ThriftListBean.class, ListBean.class).byDefault().toClassMap());
+				
 				
 				return mf.getMapperFacade() ;
 				

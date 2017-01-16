@@ -24,6 +24,7 @@
         	, title
         	, content
         	, date
+        	, (SELECT NAME FROM tbl_richware_user WHERE id=`tbl_richware_board`.uid) AS userName
         FROM
         	tbl_richware_board
         WHERE
@@ -37,6 +38,7 @@
         	, title
         	, content
         	, date
+        	, (SELECT NAME FROM tbl_richware_user WHERE id=`tbl_richware_board`.uid) AS userName
         FROM
         	tbl_richware_board
         ORDER BY
@@ -57,10 +59,11 @@
   		values (#{userId},#{userPw},#{name})
 	</insert>
 	
-	<insert id="writeBoard" parameterType="hashMap">
+	<insert id="writeBoard" parameterType="hashMap" useGeneratedKeys="true" keyProperty="id">
   		insert into tbl_richware_board (uid,title,content)
   		values (#{uid},#{title},#{content})
 	</insert>
+	
     
     <select id="Login" parameterType="hashMap" resultType="Integer">
         SELECT

@@ -111,9 +111,22 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	}
 
 	@Override
-	public void writeBoard(int uid, String title, String content) throws TException {
+	public void writeBoard(int uid, String title, String content, List<ThriftFileBean> fileList) throws TException {
 		try{
-			serviceEngine.getUserSvc().writeBoard(uid, title, content);
+			List<FileBean> fileBeans = new ArrayList<FileBean>();
+
+			for (ThriftFileBean bean : fileList){
+				FileBean fileBean = new FileBean();
+
+				fileBean.setFile(ByteBuffer.wrap(bean.getFile()));
+				fileBean.setExtension(bean.getExtension());
+				fileBean.setFileKey(bean.getFileKey());
+				fileBean.setFileName(bean.getFileName());
+
+				fileBeans.add(fileBean);
+			}
+			
+			serviceEngine.getUserSvc().writeBoard(uid, title, content, fileBeans);
 		}
 		catch (ServiceException e){
 			throw new ThriftServiceException(e.getEcode(), e.getEmsg());
@@ -144,7 +157,7 @@ public class ThriftAdminServiceHandler implements ThriftAdminService.Iface{
 	}
 
 	@Override
-	public ThriftBoardBean getBoardDetail(int id) throws ThriftServiceException, TException {
+	public ThriftBoardBean getBoardDetail(int id) throws TException {
 		try{
 			ThriftBoardBean bean = mp.map(serviceEngine.getUserSvc().getBoardDetail(id), ThriftBoardBean.class);
 			System.out.println(bean);

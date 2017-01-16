@@ -1,5 +1,7 @@
 package core.logic.bean.persistence;
 
+import java.util.List;
+
 import com.appg.gpack.common.bean.ListBean;
 
 public class UserBean {
@@ -29,6 +31,20 @@ public class UserBean {
 	private ListBean listBean;
 	private int bookMarkCount;
 	
+	private List<BoardBean> boardList;
+	
+	/**
+	 * @return the boardList
+	 */
+	public List<BoardBean> getBoardList() {
+		return boardList;
+	}
+	/**
+	 * @param boardList the boardList to set
+	 */
+	public void setBoardList(List<BoardBean> boardList) {
+		this.boardList = boardList;
+	}
 	public int getBookMarkCount()
 	{
 		return bookMarkCount;

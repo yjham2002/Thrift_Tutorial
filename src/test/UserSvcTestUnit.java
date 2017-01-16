@@ -65,8 +65,8 @@ public class UserSvcTestUnit{
 	public void testBoardDetail() throws Exception{
 		boolean ret = false;
 		BoardBean lists;
-		lists = svc.getBoardDetail(10);
-		System.out.println("id : " + lists.getTitle());
+		lists = svc.getBoardDetail(2);
+		System.out.println("idxxx : " + lists.toString());
 		
 	}
 	

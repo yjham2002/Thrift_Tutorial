@@ -199,7 +199,6 @@ public class SvcUser extends DBSessionManager {
 	public BoardBean getBoardDetail(int id) throws ServiceException{
 		BoardBean retBean = null;
 		SqlSession session = null;
-		int result = 0;
 		
 		try{
 			session = this.getSession();
@@ -292,20 +291,27 @@ public class SvcUser extends DBSessionManager {
 	}
 	
 	@ThriftAdminMethod
-	public void writeBoard(int uid, String title, String content) throws ServiceException{
+	public void writeBoard(int uid, String title, String content, List<FileBean> fileBeans) throws ServiceException{
 		SqlSession session = null;
-		
+		List<FileBean> fileList = null;
 		if(Constants.IS_DEBUG) logger.info("Trying to add an article.");
 		try{
 			session = this.getSession();
 			UserMapper mapper = session.getMapper(UserMapper.class);
 			
-			Map<String, String> params = new HashMap<>();
+			FileUpload fu = new FileUpload();
+			
+			fileList = fu.imgFileUpload(fileBeans, Constants.UPLOAD_IMAGE_SIZE);
+
+			
+			Map<String, Object> params = new HashMap<>();
 			params.put("uid", Integer.toString(uid));
 			params.put("title", title);
 			params.put("content", content);
 			
 			mapper.writeBoard(params);
+			
+			params.put("fileList", fileList);
 			
 		}catch(ServiceException e){
 			e.printStackTrace();
