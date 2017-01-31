@@ -18,6 +18,8 @@
 
 - Define the encapsulating structs, methods and exception.
 
+- Warning : The order of Bean or Structs is very important since the idl compiling mechanism is forward declarations.
+
 ```c
 namespace java thrift.gen.javacode // Namespace for java and this namespace will be the package
 namespace php ThriftService // Namespace for PHP and this namespace will be the directory of PHP
