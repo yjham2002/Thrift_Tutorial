@@ -1,18 +1,21 @@
-# Thrift based server with JAVA and PHP
+# Thrift based server with JAVA and PHP (Thrift 기반 서버 및 PHP 페이지)
 
 ### This document is about the order of processes on constructing Apache thrift based server with making simple website with a board that allows files to be uploaded
 
+- 본 문서는 파일 업로드를 지원하는 간단한 게시판을 구현하는 것을 기반으로 Thrift 기반 서버 구축에 대한 내용을 다룹니다.
+
 ### *Integral Part* of this project is [on Github](https://github.com/yjham2002/Thrift_tutorial_PHP)
 
-- The project Link above provides reason why this project provides multi-language.
+- 본 프로젝트의 뷰로서 작용하는 필수불가결한 요소는 위 주소를 통해 참조하실 수 있습니다.
 
-##### This Project runs with
-- Thrift as a multiplexer
-- C styled IDL as a base declaration
-- mybatis as a modeller
-- JAVA as a controller
-- Java bean for encapsulations
-- PHP as views
+##### This Project runs with (본 프로젝트의 구성요소)
+
+- Thrift as a multiplexer (RPC를 위한 플랫폼 다중화 모듈로서)
+- C styled IDL as a base declaration (자료형 및 메소드 선언을 위한 C 기반 모듈로서)
+- mybatis as a modeller (DB 모델링 모듈로서)
+- JAVA as a controller (Java 기반 컨트롤러로서)
+- Java bean for encapsulations (Bean 자료형 기반 캡슐화 기능으로서)
+- PHP as views (PHP 기반의 뷰로서)
 
 #### Defining thrift.idl file
 
